@@ -1,0 +1,76 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Helper\Route;
+use App\Module\Ui\View\Helper\Common;
+use App\Module\Ui\View\Helper\Product;
+use App\Type\CartItem;
+
+/** @var View $this */
+
+/** @var CartItem[] $items */
+$items = $this->items;
+
+echo $this->partial('cart/cart/breadcrumbs', ['page' => 'cart']);
+
+echo container(
+  data: 'cart-form',
+  class: 'mb-60',
+  content: row(
+    class: 'gtx-xxl-50',
+    content: [
+      col(
+        class: 'col-12 col-lg-8 odd-level-1',
+        content: function () use ($items) {
+          foreach ($items as $item) {
+            echo flex(
+              class: 'f-c ai-s jc-sb p-20 br-4 f-md-r ai-md-c',
+              data: ['cart-form-line' => $item->getProduct()->url],
+              content: [
+                div(
+                  class: 'mb-20 mb-md-0 w-f w-md-a',
+                  content: Product::small($item->getProduct())),
+
+                div('w-f w-md-a',
+                  flex('gp-20 w-f w-md-a jc-sb', [
+                    div('w-a w-md-100 flex-s-0', [
+                      div('fw-3 fs-12', Common::price($item->getProduct()->price)),
+                      div('fw-bold', Common::price($item->getProduct()->price * $item->getCount())),
+                    ]),
+                    div('h-40 w-f w-md-140', $this->partial('cart/cart/count', [
+                      'item' => $item
+                    ]))
+                  ])
+                )
+              ]
+            );
+          }
+        }
+      ),
+      col(
+        class: 'col-12 col-lg-4 mt-30 mt-lg-0',
+        content: div(
+          class: 'p-sk t-80',
+          content: flex(
+            class: 'f-c sc-level-1 p-10 p-lg-20 br-4',
+            content: [
+              $this->partial('cart/cart/coupon'),
+              div(class: 'h-1 bg-level-3-bg'),
+              flex(class: 'f-c gp-10 my-10 my-lg-20', data: 'cart-info', content: $this->partial('cart/partial/info')),
+              div(class: 'h-1 bg-level-3-bg'),
+              a(
+                href: Route::checkout(),
+                class: 'btn-primary fw-bold tt-u py-10 d-f jc-c gp-10 ai-c mt-12 mt-lg-22',
+                content: [
+                  Phrase::t('Оформлення заказу'),
+                  faIcon('chevron-right', class: 'fs-12')
+                ]
+              )
+            ]
+          )
+        )
+      ),
+    ]
+  )
+);

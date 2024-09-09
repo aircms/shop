@@ -1,0 +1,37 @@
+$utilities: map-merge($utilities, (
+  "text-color": (
+    property: color,
+    class: c,
+    state: hover,
+    values: $all-colors,
+  ),
+  "text-align": (
+    property: text-align,
+    class: ta,
+    responsive: true,
+    values: (
+      l: left,
+      c: center,
+      r: right,
+      j: justify
+    )
+  ),
+  "text-transform": (
+    property: text-transform,
+    class: tt,
+    values: (
+      l: lowercase,
+      u: uppercase,
+      c: capitalize
+    )
+  ),
+  "text-decoration": (
+    property: text-decoration,
+    class: td,
+    values: (
+      u: underline,
+      lt: line-through,
+      n: none
+    )
+  ),
+));

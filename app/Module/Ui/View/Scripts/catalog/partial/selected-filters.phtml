@@ -1,0 +1,91 @@
+<?php
+
+use Air\Cache;
+use Air\Crud\Model\Phrase;
+use Air\Type\FaIcon;
+use Air\View\View;
+use App\Model\Brand;
+use App\Model\Country;
+use App\Model\Filter;
+use App\Module\Ui\View\Helper\Common;
+
+/** @var View $this */
+
+/** @var array $selectedFilters */
+$selectedFilters = $this->selectedFilters ?? [];
+
+/** @var Brand[] $selectedBrands */
+$selectedBrands = $this->selectedBrands ?? [];
+
+/** @var Country[] $selectedCountries */
+$selectedCountries = $this->selectedCountries ?? [];
+
+/** @var bool $new */
+$new = $this->new;
+
+/** @var bool $sale */
+$sale = $this->sale;
+
+/** @var int $priceMin */
+$priceMin = $this->priceMin;
+
+/** @var int $priceMax */
+$priceMax = $this->priceMax;
+
+if (!count($selectedFilters) && !count($selectedBrands) && !count($selectedCountries) && !$new && !$sale && !$priceMin && !$priceMax) {
+  return;
+}
+
+$badge = function (string $title, string $attribute) {
+  return div(
+    class: 'br-4 bg-secondary c-light sd-light lh-1 fw-bold fs-12 d-if ai-c py-7 px-10',
+    content: [
+      $title,
+      div(
+        attributes: ['role' => 'button', 'title' => Phrase::t('Видалити фільтр'), $attribute],
+        content: faIcon('xmark', style: FaIcon::STYLE_LIGHT, class: 'fs-12 ml-6 lh-1')
+      )
+    ]
+  );
+};
+
+echo div('mb-20 d-f gp-10 f-w', function () use ($selectedFilters, $selectedBrands, $selectedCountries, $new, $sale, $priceMin, $priceMax, $badge) {
+  if ($priceMin) {
+    echo $badge(Phrase::t('Від') . ': ' . Common::price($priceMin), 'data-catalog-remove-price-min');
+  }
+  if ($priceMax) {
+    echo $badge(Phrase::t('До') . ': ' . Common::price($priceMax), 'data-catalog-remove-price-max');
+  }
+  if ($new) {
+    echo $badge(Phrase::t('Новинки'), 'data-catalog-remove-is-new');
+  }
+  if ($sale) {
+    echo $badge(Phrase::t('Розпродаж'), 'data-catalog-remove-is-sale');
+  }
+
+  echo Cache::quick([$selectedBrands], function () use ($selectedBrands, $badge) {
+    foreach ($selectedBrands as $selectedBrand) {
+      echo $badge($selectedBrand->title, 'data-catalog-remove-brand="' . $selectedBrand->url . '"');
+    }
+  });
+
+  echo Cache::quick([$selectedCountries], function () use ($selectedCountries, $badge) {
+    foreach ($selectedCountries as $selectedCountry) {
+      echo $badge($selectedCountry->title, 'data-catalog-remove-country="' . $selectedCountry->url . '"');
+    }
+  });
+
+  echo Cache::quick([$selectedFilters], function () use ($selectedFilters, $badge) {
+    foreach ($selectedFilters as $selectedFilter) {
+      /** @var Filter $filter */
+      $filter = $selectedFilter['filter'];
+
+      /** @var string[] $values */
+      $values = $selectedFilter['values'];
+
+      foreach ($values as $value) {
+        echo $badge($filter->title, 'data-catalog-remove-filter="' . implode(':', [$filter->url, $value]) . '"');
+      }
+    }
+  });
+});

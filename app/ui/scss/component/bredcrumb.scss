@@ -1,0 +1,27 @@
+.breadcrumb-item + .breadcrumb-item::before {
+  font-family: "Font Awesome 6 Pro", serif;
+  color: var(--bs-tertiary-color);
+  content: '\f054';
+  transform: scale(0.8) translateX(-2px);
+}
+
+@media (max-width: 768px) {
+  .breadcrumb {
+    & > .breadcrumb-item {
+      display: none;
+
+      &:nth-last-child(1) {
+        display: block;
+      }
+
+      &:nth-last-child(2) {
+        display: block;
+        padding-left: 0;
+
+        &:before {
+          display: none;
+        }
+      }
+    }
+  }
+}

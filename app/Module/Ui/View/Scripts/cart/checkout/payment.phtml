@@ -1,0 +1,43 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Helper\Cart;
+use App\Model\ShopSettings;
+
+$checkout = Cart::getCheckoutData();
+$shopSettings = ShopSettings::singleOne();
+
+echo div(content: [
+  div(class: 'fs-20 fw-bold mb-20 r', content: Phrase::t('Оплата')),
+  richRadio(
+    name: 'payment',
+    value: $checkout->payment,
+    radios: [
+      $shopSettings->paymentCashEnabled ? [
+        'value' => 'cash',
+        'title' => Phrase::t('Оплатить заказ при получении товара'),
+      ] : null,
+      ($shopSettings->paymentOnlineEnabled && strlen($shopSettings->monoApiKey)) ? [
+        'value' => 'online',
+        'title' => div(class: 'd-f ai-c gp-5', content: [
+          Phrase::t('Оплатить ONLINE с помощью'),
+          img('images/monopay.svg', class: 'h-20 pt-1')
+        ]),
+        'content' => div(class: 'd-f f-c ai-s gp-10', content: [
+          Phrase::t('Оплата будь-якою банківською карткою на рахунок MonoBank'),
+          img('images/payment.png', class: 'h-20')
+        ]),
+      ] : null,
+      $shopSettings->paymentBankIndividual ? [
+        'value' => 'bankIndividual',
+        'title' => Phrase::t('Безготівковими для фізичних осіб'),
+        'content' => $this->partial('cart/checkout/payment/bank-individual')
+      ] : null,
+      $shopSettings->paymentBankEntity ? [
+        'value' => 'bankEntity',
+        'title' => Phrase::t('Безготівкою для юридичних осіб'),
+        'content' => $this->partial('cart/checkout/payment/bank-entity')
+      ] : null,
+    ]
+  )
+]);

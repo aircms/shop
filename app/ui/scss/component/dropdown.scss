@@ -1,0 +1,30 @@
+.dropdown {
+  position: relative;
+
+  .dropdown-box {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 2;
+
+    &.right {
+      left: initial;
+      right: 0;
+    }
+  }
+
+  &:hover, &:active {
+    .dropdown-box {
+      transition: all 0.2s ease-in-out !important;
+    }
+  }
+
+  &:hover, &:active, &.show {
+    .dropdown-box {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}

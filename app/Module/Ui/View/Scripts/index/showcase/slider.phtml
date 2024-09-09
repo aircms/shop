@@ -1,0 +1,51 @@
+<?php
+
+use Air\View\View;
+use App\Model\Category;
+use App\Model\ShowcaseSlider;
+use App\Module\Ui\View\Helper\Input;
+use App\Type\Banner;
+
+/** @var View $this */
+
+$slider = ShowcaseSlider::one();
+
+$topPadding = 18;
+$slideHeight = (Category::quantity(['parent' => null]) * 41.61) - $topPadding;
+
+echo section(
+  data: 'welcome',
+  content: container(
+    div(
+      class: 'pl-0 pl-md-300 pt-' . $topPadding,
+      content: [
+        swiper(
+          slides: $slider->desktop,
+          mainClass: 'br-4 pb-55 d-n d-md-b',
+          slideInsideValue: true,
+          additionalContent: Input::pillIconSwiperNav('p-a b-13 r-0'),
+          options: ['slidesPerView' => 'auto', 'loop' => true],
+          renderer: function (Banner $banner) use ($slideHeight) {
+            echo div(
+              class: 'swiper-slide w-a',
+              content: $this->partial('component/banner', [
+                'banner' => $banner
+              ])
+            );
+          }
+        ),
+        swiper(
+          slides: $slider->mobile,
+          mainClass: 'br-4 pb-60 d-b d-md-n',
+          additionalContent: Input::pillIconSwiperNav('p-a b-13 r-0'),
+          options: ['slidesPerView' => 1, 'loop' => true],
+          renderer: function (Banner $banner) {
+            echo $this->partial('component/banner', [
+              'banner' => $banner
+            ]);
+          }
+        )
+      ]
+    )
+  )
+);

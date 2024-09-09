@@ -1,0 +1,56 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+
+/** @var View $this */
+
+/** @var string $sort */
+$sort = $this->sort;
+
+/** @var int $show */
+$show = $this->show;
+
+$sortingOptions = [
+  'popular' => Phrase::t('За популярністю'),
+  'price-asc' => Phrase::t('Спочатку дешевше'),
+  'price-desc' => Phrase::t('Спочатку дорожче'),
+];
+
+$showingOptions = [40, 80, 120];
+
+echo hidden('sort', $sort !== 'popular' ? $sort : '');
+echo hidden('show', $show !== 40 ? $show : '');
+
+echo flex(class: 'ai-c jc-sb mb-md-14 mb-0', content: [
+  dropdown(
+    containerClass: 'w-180',
+    buttonClass: 'h-50 py-10',
+    boxClass: 'w-f',
+    button: $sortingOptions[$sort],
+    box: flex(class: 'w-f card-level-1 py-10 px-14 d-f f-c gp-10', content: function () use ($sortingOptions) {
+      foreach ($sortingOptions as $sort => $title) {
+        echo a(
+          class: 'd-f fs-12',
+          data: ['catalog-sort' => $sort !== 'popular' ? $sort : ''],
+          content: $title
+        );
+      }
+    })
+  ),
+  dropdown(
+    containerClass: 'pl-5',
+    buttonClass: 'h-50 py-10',
+    boxClass: 'w-f',
+    button: Phrase::t('Показувати') . ' ' . $show,
+    box: flex(class: 'card-level-1 py-10 px-14 f-c gp-10', content: function () use ($showingOptions) {
+      foreach ($showingOptions as $showingOption) {
+        echo a(
+          class: 'd-f fs-12',
+          data: ['catalog-show' => $showingOption !== 40 ? $showingOption : ''],
+          content: Phrase::t('Показувати') . ' ' . $showingOption
+        );
+      }
+    })
+  )
+]);

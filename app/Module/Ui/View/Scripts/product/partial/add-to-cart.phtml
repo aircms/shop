@@ -1,0 +1,40 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\Type\FaIcon;
+use Air\View\View;
+use App\Model\Product;
+
+/** @var View $this */
+
+/** @var Product $product */
+$product = $this->product;
+
+echo form(class: 'd-f flex-f gp-20 h-60', data: ['cart-add-form' => $product->url], content: [
+  div(
+    class: 'br-4 bw-1 bc-level-6-bg p-10 d-f ai-c gp-10 h-f flex-f',
+    content: [
+      number(class: 'bw-0 w-f', value: 1, attributes: ['min' => 1, 'readonly']),
+      flex(class: 'gp-10 ai-c h-f', content: [
+        a(
+          data: 'cart-add-form-minus',
+          class: 'br-circle sc-level-6 o-70 o-90-hover an-2 d-if ai-c jc-c ar-1-1 h-pr-80 cp',
+          content: faIcon('minus', FaIcon::STYLE_LIGHT)
+        ),
+        a(
+          data: 'cart-add-form-plus',
+          class: 'br-circle sc-level-6 o-70 o-90-hover an-2 d-if ai-c jc-c ar-1-1 h-pr-80 cp',
+          content: faIcon('plus', FaIcon::STYLE_LIGHT)
+        ),
+      ])
+    ]
+  ),
+  a(
+    class: 'br-4 d-f ai-c jc-c gp-10 h-50 btn-primary flex-s-0 fw-bold tt-u h-f',
+    data: 'cart-add-form-submit',
+    content: [
+      faIcon('bag-shopping', FaIcon::STYLE_LIGHT, class: 'fs-20'),
+      Phrase::t('Додати у кошик')
+    ]
+  )
+]);

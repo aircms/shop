@@ -1,0 +1,35 @@
+.toast {
+  --toast-color: var(--bs-body-bg);
+  --toast-bg: var(--bs-body-color);
+
+  visibility: hidden;
+  transform: translateY(-100%);
+  opacity: 0;
+  z-index: 1060;
+
+  & > .content {
+    @each $color, $value in $all-colors {
+      &.#{$color} {
+        --toast-color: var(--bs-#{$color}-text-emphasis);
+        --toast-bg: var(--bs-#{$color});
+      }
+    }
+
+    max-width: 90%;
+    color: var(--toast-color);
+    background: var(--toast-bg);
+  }
+
+  &.show {
+    visibility: visible;
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+[data-bs-theme="dark"] {
+  .toast {
+    --toast-color: var(--level-6-color);
+    --toast-bg: var(--level-6-bg);
+  }
+}

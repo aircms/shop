@@ -1,0 +1,34 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Helper\Cart;
+use App\Model\Coupon;
+use App\Module\Ui\View\Helper\Common;
+
+$price = Cart::price();
+$coupon = Cart::getCoupon();
+$couponPrice = Cart::priceWithCoupon();
+
+if ($coupon && $coupon->type !== Coupon::TYPE_INFO) {
+
+  echo row(class: 'fw-bold o-80 fs-14', content: [
+    col(class: 'col-7', content: Phrase::t('Загальна сума:')),
+    col(class: 'col-5 ta-r td-lt', content: Common::price($price)),
+  ]);
+
+  echo row(class: 'fw-bold o-80 fs-14', content: [
+    col(class: 'col-7', content: Phrase::t('Знижка купона:')),
+    col(class: 'col-5 ta-r', content: Common::price($price - $couponPrice)),
+  ]);
+
+  echo row(class: 'fw-bold o-80 fs-14', content: [
+    col(class: 'col-7', content: Phrase::t('Сума до оплати:')),
+    col(class: 'col-5 ta-r', content: Common::price($couponPrice)),
+  ]);
+
+} else {
+  echo row(class: 'fw-bold fs-15', content: [
+    col(class: 'col-7', content: Phrase::t('Сума до оплати:')),
+    col(class: 'col-5 ta-r', content: Common::price($price)),
+  ]);
+}

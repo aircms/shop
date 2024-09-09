@@ -1,0 +1,26 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Model\Order;
+
+/** @var Order $order */
+$order = $this->order;
+
+echo div(class: 'sc-level-1 px-20 py-18 br-4', content: row([
+  col(class: 'col-lg-3', content: [
+    div(class: 'ta-c', content: Phrase::t('Номер замовлення')),
+    div(class: 'ta-c fw-bold', content: $order->number),
+  ]),
+  col(class: 'col-lg-3', content: [
+    div(class: 'ta-c', content: Phrase::t('Ім\'я та прізвище')),
+    div(class: 'ta-c fw-bold', content: $order->firstName . ' ' . $order->lastName),
+  ]),
+  col(class: 'col-lg-3', content: [
+    div(class: 'ta-c', content: Phrase::t('Телефон')),
+    div(class: 'ta-c fw-bold', content: $order->phone),
+  ]),
+  col(class: 'col-lg-3', content: [
+    div(class: 'ta-c', content: Phrase::t('E-mail')),
+    div(class: 'ta-c fw-bold', content: $order->email),
+  ]),
+]));

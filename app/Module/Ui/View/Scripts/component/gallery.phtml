@@ -1,0 +1,71 @@
+<?php
+
+use Air\Type\File;
+use Air\View\View;
+use App\Model\CatalogSettings;
+use App\Module\Ui\View\Helper\Input;
+
+/** @var View $this */
+
+/** @var File[] $images */
+$images = $this->images;
+
+/** @var bool $noImage */
+$noImage = $this->noImage;
+
+$defaultImage = null;
+
+if (!count($images) || $noImage) {
+  $catalogSettings = CatalogSettings::singleOne();
+  $defaultImage = $catalogSettings->noImage;
+}
+
+if ($noImage) {
+  echo img($defaultImage, 'ar-1-1 w-f of-con p-20 bg-white br-4 d-n d-md-b');
+
+} else {
+
+  $nav = null;
+
+  $content = [swiper(
+    dataId: 'full-images',
+    mainClass: 'mb-10 br-4',
+    slides: $images,
+    additionalContent: count($images) > 1 ? Input::pillIconSwiperNav(class: 'p-a z-1 t-10 r-10') : null,
+    renderer: function (File $file) {
+      if ($file->isImage()) {
+        echo img($file, 'ar-4-3 w-f of-con p-20 bg-white br-4');
+      } else {
+        echo video(
+          src: $file,
+          class: 'ar-4-3 w-f of-cv br-4 h-f',
+          attributes: ['autoplay loop muted playsinline', 'style' => 'pointer-events: none']
+        );
+      }
+    },
+  )];
+
+  if (count($images) > 1) {
+    $content[] = swiper(
+      dataId: 'preview-images',
+      slideClass: 'w-100',
+      slides: $images,
+      additionalContent: count($images) > 1 ? Input::stickIconSwiperNav() : null,
+      renderer: function (File $file) {
+        if ($file->isImage()) {
+          $src = $file;
+        } else {
+          $src = $file->getThumbnail();
+        }
+        echo img(
+          src: $src,
+          class: 'w-f ar-1-1 of-con p-10 bg-white br-4 cp bw-1 bc-level-1-bg bc-level-6-bg-hover an-2',
+          alt: $file->getAlt(),
+          title: $file->getTitle()
+        );
+      },
+    );
+  }
+
+  echo div(attributes: 'data-gallery', content: $content);
+}

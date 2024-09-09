@@ -1,0 +1,15 @@
+<?php
+
+use Air\View\View;
+use App\Model\Product;
+
+/** @var View $this */
+
+/** @var Product $product */
+$product = $this->product;
+
+if (!strlen($product->description)) {
+  return;
+}
+
+echo p(class: 'p-0 m-0 fs-13 lm-5', content: $product->description);

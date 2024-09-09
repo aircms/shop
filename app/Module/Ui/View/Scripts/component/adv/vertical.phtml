@@ -1,0 +1,20 @@
+<?php
+
+use Air\View\View;
+use App\Model\ShowcaseAdv;
+
+/** @var View $this */
+
+$adv = ShowcaseAdv::one();
+
+echo flex(class: 'bw-1 br-10 bc-level-2-bg sc-level-1 f-c px-20 py-0', content: function () use ($adv) {
+  foreach ($adv->items as $index => $item) {
+    echo flex(class: ['bw-t-1 py-18 ai-c', $index !== 0 ? 'bc-level-4-bg' : ''], content: [
+      faIcon(icon: $item->getFaIcon(), class: 'c-primary fs-36 mr-10'),
+      div(content: [
+        div(class: 'fw-bold', content: $item->getTitle()),
+        div(content: $item->getDescription())
+      ])
+    ]);
+  }
+});

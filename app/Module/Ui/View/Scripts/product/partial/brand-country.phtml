@@ -1,0 +1,44 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Helper\Route;
+use App\Model\Product;
+
+/** @var View $this */
+
+/** @var Product $product */
+$product = $this->product;
+
+echo flex(class: 'gp-30 zm-07 zm-md-1', content: [
+  flex(class: 'ai-c gp-10', content: [
+    img($product->brand->image, class: 'h-50 ar-1-1 of-con br-4 p-10 bg-white'),
+    flex(class: 'f-c', content: [
+      a(
+        href: Route::catalog(brands: [$product->brand]),
+        content: $product->brand->title,
+        class: 'fs-16 fw-bold',
+        attributes: [
+          'data-title' => Phrase::t('Виробник') . ': ' . $product->brand->title,
+          'data-title-placement' => 'top'
+        ]
+      ),
+      a(
+        href: Route::catalog(countries: [$product->country]),
+        content: $product->country->title,
+        class: 'c-secondary c-secondary-hover',
+        attributes: [
+          'data-title' => Phrase::t('Країна') . ': ' . $product->country->title,
+          'data-title-placement' => 'top'
+        ]
+      )
+    ])
+  ]),
+  flex(class: 'ai-c gp-10', content: [
+    faIcon('barcode-read', class: 'r fs-40 h-45 ar-1-1 d-b c-secondary d-f ai-c jc-c'),
+    flex(class: 'f-c gp-1', content: [
+      span(data: ['title' => Phrase::t('Код постачальника')], content: $product->vendorCode),
+      span(data: ['title' => Phrase::t('Код товару')], content: $product->barcode),
+    ])
+  ])
+]);

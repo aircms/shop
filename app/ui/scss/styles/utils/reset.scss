@@ -1,0 +1,15 @@
+.r {
+  line-height: 100% !important;
+  margin: 0;
+  padding: 0;
+}
+
+@each $screenName, $screenValue in $container-max-widths {
+  @media (min-width: #{$screenValue}) {
+    .r-#{$screenName} {
+      line-height: 100% !important;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}

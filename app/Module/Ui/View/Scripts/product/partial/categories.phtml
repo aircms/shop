@@ -1,0 +1,38 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\Type\FaIcon;
+use Air\View\View;
+use App\Helper\Route;
+use App\Model\Category;
+use App\Model\Product;
+
+/** @var View $this */
+
+/** @var Product $product */
+$product = $this->product;
+
+/** @var Category[] $categories */
+$categories = [$product->category->id => $product->category];
+
+foreach ($product->categories as $category) {
+  if (!array_key_exists($category->id, $categories)) {
+    $categories[$category->id] = $category;
+  }
+}
+
+echo flex(class: 'ai-c jc-sb gp-20', content: [
+  flex(class: 'f-w gp-10', content: function () use ($categories) {
+    foreach ($categories as $category) {
+      echo a(
+        href: Route::catalog($category),
+        data: ['title' => Phrase::t('Перейти до категорії') . ': ' . $category->title],
+        content: span(class: 'sc-secondary br-4 px-5 py-3 sd-soft', content: $category->title)
+      );
+    }
+  }),
+  a(
+    data: ['title' => Phrase::t('Додати в обране')],
+    content: faIcon('heart', style: FaIcon::STYLE_LIGHT, class: 'fs-30 c-red fs-md-25 lh-1')
+  )
+]);

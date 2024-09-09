@@ -1,0 +1,39 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Helper\Route;
+
+/** @var string $page */
+$page = $this->page;
+
+echo container(
+  class: 'my-20 my-lg-50',
+  content: flex(
+    class: 'ai-c jc-s jc-md-c f-c f-md-r fs-20 fw-bold gp-10',
+    content: [
+      a(
+        href: Route::cart(),
+        class: [$page === 'cart' ? 'd-b' : 'd-n d-md-b', 'c-secondary c-secondary-hover'],
+        content: Phrase::t('Кошик')
+      ),
+      div(
+        class: [$page === 'checkout' ? 'd-f' : 'd-n d-md-f', 'gp-10 ai-c'],
+        content: [
+          faIcon('chevron-right', class: 'fs-14 d-n d-md-b'),
+          a(
+            href: Route::checkout(),
+            class: [$page === 'checkout' ? 'c-secondary' : null, 'c-secondary-hover'],
+            content: Phrase::t('Оформлення замовлення')
+          )
+        ]
+      ),
+      div(
+        class: [$page === 'thank-you' ? 'd-f c-secondary c-secondary-hover' : 'd-n d-md-f', 'gp-10 ai-c'],
+        content: [
+          faIcon('chevron-right', class: 'fs-14'),
+          Phrase::t('Оформлення завершено')
+        ]
+      )
+    ]
+  )
+);

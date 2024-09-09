@@ -1,0 +1,32 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Model\Product;
+
+/** @var View $this */
+
+/** @var Product $product */
+$product = $this->product;
+
+echo div(
+  class: 'mt-80',
+  content: container(
+    row(class: 'gt-20 gtx-lg-100 pt-2', content: [
+      col(
+        class: 'col-12 col-lg-8',
+        content: $this->partial('component/product/group/horizontal', [
+          'title' => Phrase::t('З цим товаром також купують'),
+          'products' => $product->alsoBuyProducts
+        ])),
+      col(
+        class: 'col-12 col-lg-4',
+        content: $this->partial('component/product/group/vertical', [
+          'title' => Phrase::t('Рекомендовані товари'),
+          'products' => $product->recommendedProducts
+        ]))
+    ])
+  )
+);
+
+echo $this->partial('component/adv/horizontal');

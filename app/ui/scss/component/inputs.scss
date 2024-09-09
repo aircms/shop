@@ -1,0 +1,18 @@
+.select {
+  position: relative;
+
+  &:after {
+    position: absolute;
+    font-family: "Font Awesome 6 Pro", serif;
+    color: var(--bs-tertiary-color);
+    content: "\f078";
+    height: 20px;
+    line-height: 20px;
+    top: calc(50% - 10px);
+    right: 20px;
+  }
+
+  & > select {
+    appearance: none;
+  }
+}

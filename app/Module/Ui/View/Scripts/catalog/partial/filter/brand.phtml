@@ -1,0 +1,49 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Helper\Route;
+use App\Model\Brand;
+use App\Model\Category;
+
+/** @var View $this */
+
+/** @var Category $category */
+$category = $this->category;
+
+/** @var Brand[] $brands */
+$brands = $category?->brands ?? $this->catalogSettings?->brands ?? [];
+
+if (!count($brands)) {
+  return;
+}
+
+/** @var array $selectedBrands */
+$selectedBrands = $this->selectedBrands ?? [];
+
+echo widget(
+  title: Phrase::t('Виробник'),
+  opened: true,
+  content: function () use ($brands, $selectedBrands, $category) {
+    echo div(class: 'py-3', content: function () use ($brands, $selectedBrands, $category) {
+      foreach ($brands as $brand) {
+        echo flex(class: 'ai-c h-36', content: a(
+          href: Route::catalog(category: $category, brands: [$brand]),
+          class: [
+            'checkbox',
+            (in_array($brand->url, array_keys($selectedBrands))) ? 'c-primary' : null
+          ],
+          data: [
+            'force' => true,
+            'catalog-brand' => $brand->url,
+            'catalog-filter-change'
+          ],
+          content: [
+            checkbox('brands[]', value: $brand->url, checked: in_array($brand->url, array_keys($selectedBrands))),
+            $brand->title
+          ]
+        ));
+      }
+    });
+  }
+);

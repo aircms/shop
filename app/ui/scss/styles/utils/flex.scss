@@ -1,0 +1,111 @@
+$utilities: map-merge($utilities, (
+  "flex": (
+    responsive: true,
+    property: flex,
+    values: (f: 1 1 auto)
+  ),
+  "flex-direction": (
+    responsive: true,
+    property: flex-direction,
+    class: f,
+    values: (
+      r: row,
+      c: column,
+      rr: row-reverse,
+      cr: column-reverse
+    )
+  ),
+  "flex-grow": (
+    responsive: true,
+    property: flex-grow,
+    class: flex,
+    values: (
+      g-0: 0,
+      g-1: 1,
+    )
+  ),
+  "flex-shrink": (
+    responsive: true,
+    property: flex-shrink,
+    class: flex,
+    values: (
+      s-0: 0,
+      s-1: 1,
+    )
+  ),
+  "flex-wrap": (
+    responsive: true,
+    property: flex-wrap,
+    class: f,
+    values: (
+      w: wrap,
+      nw: nowrap,
+      wr: wrap-reverse
+    )
+  ),
+  "justify-content": (
+    responsive: true,
+    property: justify-content,
+    class: jc,
+    values: (
+      s: flex-start,
+      e: flex-end,
+      c: center,
+      sb: space-between,
+      sa: space-around,
+      se: space-evenly
+    )
+  ),
+  "align-items": (
+    responsive: true,
+    property: align-items,
+    class: ai,
+    values: (
+      s: flex-start,
+      e: flex-end,
+      c: center,
+      b: baseline,
+      st: stretch,
+    )
+  ),
+  "align-content": (
+    responsive: true,
+    property: align-content,
+    class: ac,
+    values: (
+      s: flex-start,
+      e: flex-end,
+      c: center,
+      b: space-between,
+      a: space-around,
+      st: stretch,
+    )
+  ),
+  "align-self": (
+    responsive: true,
+    property: align-self,
+    class: as,
+    values: (
+      a: auto,
+      s: flex-start,
+      e: flex-end,
+      c: center,
+      b: baseline,
+      st: stretch,
+    )
+  ),
+  "order": (
+    responsive: true,
+    property: order,
+    values: (
+      first: -1,
+      0: 0,
+      1: 1,
+      2: 2,
+      3: 3,
+      4: 4,
+      5: 5,
+      last: 6,
+    ),
+  ),
+));

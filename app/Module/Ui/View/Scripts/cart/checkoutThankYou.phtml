@@ -1,0 +1,25 @@
+<?php
+
+use App\Model\Order;
+use App\Model\ShopSettings;
+
+/** @var Order $order */
+$order = $this->order;
+
+$shopSettings = ShopSettings::one();
+
+echo container(
+  class: 'mt-30 mb-60',
+  content: row(
+    class: 'gt-30',
+    content: [
+      col(class: 'col-lg-8 offset-lg-2', content: $this->partial('cart/thank-you/status')),
+      col(class: 'col-lg-8 offset-lg-2', content: $this->partial('cart/thank-you/info')),
+      col(class: 'col-lg-8 offset-lg-2', content: $this->partial('cart/thank-you/order')),
+      col(class: 'col-lg-8 offset-lg-2', content: row(class: 'gt-30', content: [
+        col(class: 'col-12', content: $this->partial('cart/thank-you/delivery')),
+        col(class: 'col-12', content: $this->partial('cart/thank-you/payment'))
+      ])),
+    ]
+  )
+);

@@ -1,0 +1,20 @@
+$utilities: map-merge($utilities, (
+  "gap": (
+    responsive: true,
+    property: gap,
+    class: gp,
+    values: $gaps
+  ),
+  "row-gap": (
+    responsive: true,
+    property: row-gap,
+    class: gpx,
+    values: $gaps
+  ),
+  "column-gap": (
+    responsive: true,
+    property: column-gap,
+    class: gpy,
+    values: $gaps
+  ),
+));

@@ -1,0 +1,22 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Helper\Cart;
+
+$coupon = Cart::getCoupon();
+
+echo form(data: 'cart-coupon-form', content: [
+  flex(class: 'ai-c gp-10 h-44', content: [
+    text(
+      attributes: $coupon ? ['readonly'] : [],
+      value: $coupon?->code,
+      data: 'coupon-code',
+      class: 'h-f px-10 pt-10 pb-12 bw-2 bc-primary br-5 w-f h-f',
+      placeholder: Phrase::t('Введіть купон')
+    ),
+    $coupon
+      ? button(class: 'btn-dark h-f', data: 'cart-coupon-remove', content: Phrase::t('Скасувати'))
+      : button(class: 'btn-primary h-f', isSubmit: true, content: Phrase::t('Застосувати'))
+  ]),
+  div(class: 'c-danger flex-s-0 o-0', data: 'coupon-error', content: Phrase::t('Код не може бути застосований'))
+]);

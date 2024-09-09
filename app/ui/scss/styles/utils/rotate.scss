@@ -1,0 +1,9 @@
+$utilities: map-merge($utilities, (
+  "rotate": (
+    property: rotate,
+    class: rot,
+    // responsive: true,
+    state: hover,
+    values: fillStep(0, 360, 10, "deg"),
+  )
+));

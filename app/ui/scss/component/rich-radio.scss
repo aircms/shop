@@ -1,0 +1,21 @@
+.rich-radio {
+  & > div {
+    & > .body {
+      max-height: 0;
+      opacity: 0;
+      transition: all .2s ease-in-out;
+      overflow: hidden;
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+
+    &.show > .body {
+      max-height: 400px;
+      opacity: 1;
+
+      @media (max-width: 768px) {
+        max-height: 100%;
+      }
+    }
+  }
+}

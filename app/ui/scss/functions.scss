@@ -1,0 +1,66 @@
+@use "sass:list";
+@use "sass:map";
+
+@function fill($from, $to, $units: false) {
+  $options: ();
+  @for $i from $from to ($to + 1) {
+    @if ($units) {
+      $options: map.merge($options, (
+        $i: #{$i}#{$units}
+      ));
+    } @else {
+      $options: list.append($options, $i);
+    }
+  }
+  @return $options;
+}
+
+@function fillStep($from, $to, $step, $units: false) {
+  $options: ();
+  @for $i from $from to $to + 1 {
+    @if ($i % $step == 0) {
+      @if ($units) {
+        $options: map.merge($options, (
+          $i: #{$i}#{$units}
+        ));
+      } @else {
+        $options: list.append($options, $i);
+      }
+    }
+  }
+  @return $options;
+}
+
+@function mapMerge($maps...) {
+  $collection: ();
+  @each $map in $maps {
+    $collection: map-merge(
+        $collection,
+        $map
+    );
+  }
+  @return $collection;
+}
+
+@function mapReverse ($map) {
+  $result: null;
+
+  $keys: map-keys($map);
+  $map-reversed: ();
+
+  @for $i from length($keys) through 1 {
+    $map-reversed: map-merge(
+        $map-reversed,
+        (nth($keys, $i): map-get($map, nth($keys, $i)))
+    );
+  }
+  @return $map-reversed;
+}
+
+@function strReplace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  @return $string;
+}

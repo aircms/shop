@@ -1,0 +1,38 @@
+<?php
+
+use Air\Crud\Model\Language;
+use Air\View\View;
+use App\Helper\Route;
+
+/** @var View $this */
+
+$currentLanguage = Language::getLanguage();
+$languages = Language::singleAll();
+
+echo dropdown(
+  containerClass: 'pl-10',
+  buttonClass: 'h-44',
+  button: [
+    img($currentLanguage->image, class: 'w-14 h-8'),
+    span(class: 'r fs-12', content: $currentLanguage->title),
+  ],
+  box: function () use ($languages) {
+    echo div(
+      class: 'card-level-2 w-f py-10 px-10 d-f f-c gp-8',
+      content: function () use ($languages) {
+        foreach ($languages as $language) {
+          echo a(
+            href: Route::currentUrlToLanguage($language),
+            title: $language->title,
+            data: ['force' => true, 'language-link' => $language->key],
+            class: 'd-f ai-c gp-5 mr-2',
+            content: [
+              img($language->image, class: 'w-14 h-8'),
+              span(class: 'r fs-12', content: $language->title)
+            ]
+          );
+        }
+      }
+    );
+  }
+);

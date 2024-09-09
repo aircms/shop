@@ -1,0 +1,60 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\Map;
+use App\Helper\Cart;
+use App\Model\ShopSettings;
+use App\Module\Ui\View\Helper\Input;
+
+$checkout = Cart::getCheckoutData();
+$shopSettings = ShopSettings::singleOne();
+
+echo row(
+  class: 'gt-20',
+  content: [
+    col('col-12 col-md-6',
+      Input::select(
+        options: Map::execute($shopSettings->regions, 'title'),
+        label: Phrase::t('Виберіть область'),
+        error: Phrase::t('Вкажіть вашу область'),
+        value: $checkout->door->region,
+        name: 'door[region]',
+      ),
+    ),
+    col('col-12 col-md-6',
+      Input::text(
+        label: Phrase::t('Вкажіть Місто / Село'),
+        error: Phrase::t('Вкажіть ваше місто'),
+        value: $checkout->door->city,
+        name: 'door[city]',
+      )
+    ),
+    col('col-12',
+      row(class: 'gt-10', content: [
+        col('col-12',
+          Input::text(
+            placeholder: Phrase::t('Назва вулиці та номер будинку'),
+            label: Phrase::t('Вкажіть адресу'),
+            value: $checkout->door->line1,
+            name: 'door[line1]',
+          )
+        ),
+        col('col-9',
+          Input::text(
+            placeholder: Phrase::t('Квартира, офіс, блок і т.д.'),
+            value: $checkout->door->line2,
+            name: 'door[line2]',
+            error: Phrase::t('Вкажіть коректну адресу')
+          )
+        ),
+        col('col-3',
+          Input::number(
+            placeholder: Phrase::t('Поштовий індекс'),
+            value: $checkout->door->postCode,
+            name: 'door[postCode]'
+          )
+        ),
+      ])
+    ),
+  ]
+);

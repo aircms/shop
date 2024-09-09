@@ -1,0 +1,56 @@
+:root {
+  --shadow-soft-blur: 20px;
+  --shadow-soft-spread: -5px;
+  --shadow-soft-color: rgb(0 0 0 / 20%);
+
+  --shadow-medium-blur: 20px;
+  --shadow-medium-spread: 0px;
+  --shadow-medium-color: rgb(0 0 0 / 20%);
+
+  --shadow-hard-blur: 10px;
+  --shadow-hard-spread: 5px;
+  --shadow-hard-color: rgb(0 0 0 / 20%);
+}
+
+[data-bs-theme="dark"] {
+  --shadow-soft-blur: 20px;
+  --shadow-soft-spread: -7px;
+  --shadow-soft-color: rgb(0 0 0);
+
+  --shadow-medium-blur: 20px;
+  --shadow-medium-spread: -5px;
+  --shadow-medium-color: rgb(0 0 0);
+
+  --shadow-hard-blur: 20px;
+  --shadow-hard-spread: -2px;
+  --shadow-hard-color: rgb(0 0 0);
+}
+
+$shadowIntense: (
+  soft: 0 0 var(--shadow-soft-blur) var(--shadow-soft-spread) var(--shadow-soft-color),
+  medium: 0 0 var(--shadow-medium-blur) var(--shadow-medium-spread) var(--shadow-medium-color),
+  hard: 0 0 var(--shadow-hard-blur) var(--shadow-hard-spread) var(--shadow-hard-color),
+  0: none,
+);
+
+@each $shadow in fill(1, 11) {
+  $shadowIntense: map-merge($shadowIntense, (
+    $shadow: 0 0 #{$shadow}px 0 rgb(0 0 0 / 20%)
+  ));
+}
+
+@each $shadow in fillStep(15, 100, 5) {
+  $shadowIntense: map-merge($shadowIntense, (
+    $shadow: 0 0 #{$shadow}px 0 rgb(0 0 0 / 20%)
+  ));
+}
+
+$utilities: map-merge($utilities, (
+  "box-shadow": (
+    property: box-shadow,
+    class: sd,
+    // responsive: true,
+    state: hover,
+    values: $shadowIntense
+  )
+));

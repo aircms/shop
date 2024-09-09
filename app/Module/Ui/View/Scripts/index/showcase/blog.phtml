@@ -1,0 +1,16 @@
+<?php
+
+use Air\View\View;
+use App\Model\ShowcaseBlog;
+
+/** @var View $this */
+
+$showcaseBlog = ShowcaseBlog::one();
+
+echo div(class: 'sc-level-1', content: container(
+  class: 'pt-20 pb-10',
+  content: $this->partial('component/article/group', [
+    'title' => $showcaseBlog->title,
+    'articles' => $showcaseBlog->articles
+  ])
+));

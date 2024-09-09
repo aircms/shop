@@ -1,0 +1,24 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Helper\Route;
+
+/** @var View $this */
+
+echo a(class: 'u-link', href: Route::home(), content: [faIcon(icon: 'home', class: 'icon'), Phrase::t('Головна')]);
+echo a(class: 'u-link', href: Route::blog(), content: [faIcon(icon: 'blog', class: 'icon'), Phrase::t('Блог')]);
+echo a(class: 'u-link', href: Route::paymentDelivery(), content: [faIcon(icon: 'truck', class: 'icon'), Phrase::t('Оплата и доставка')]);
+echo a(class: 'u-link', href: Route::about(), content: [faIcon(icon: 'people-carry', class: 'icon'), Phrase::t('Про нас')]);
+echo a(class: 'u-link', href: Route::contact(), content: [faIcon(icon: 'phone-volume', class: 'icon'), Phrase::t('Контакти')]);
+
+echo div(class: 'tail', content: [
+  a(href: Route::catalog(isNew: true), content: [
+    faIcon(icon: 'star', class: 'icon'),
+    span(class: 'u-link', content: Phrase::t('Новинки'))
+  ]),
+  a(href: Route::catalog(isSale: true), content: [
+    faIcon(icon: 'tag', class: 'icon'),
+    span(class: 'u-link', content: Phrase::t('Розпродаж'))
+  ]),
+]);

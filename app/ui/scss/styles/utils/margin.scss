@@ -1,0 +1,51 @@
+$utilities: map-merge($utilities, (
+  "margin": (
+    property: margin,
+    class: m,
+    responsive: true,
+    // state: hover,
+    values: $stepPxs
+  ),
+  "margin-top": (
+    property: margin-top,
+    class: mt,
+    responsive: true,
+    // state: hover,
+    values: $stepPxs
+  ),
+  "margin-right": (
+    property: margin-right,
+    class: mr,
+    responsive: true,
+    // state: hover,
+    values: $stepPxs
+  ),
+  "margin-bottom": (
+    property: margin-bottom,
+    class: mb,
+    responsive: true,
+    // state: hover,
+    values: $stepPxs
+  ),
+  "margin-left": (
+    property: margin-left,
+    class: ml,
+    responsive: true,
+    // state: hover,
+    values: $stepPxs
+  ),
+  "margin-x": (
+    property: margin-left margin-right,
+    class: mx,
+    responsive: true,
+    // state: hover,
+    values: $stepPxs
+  ),
+  "margin-y": (
+    property: margin-top margin-bottom,
+    class: my,
+    responsive: true,
+    // state: hover,
+    values: $stepPxs
+  ),
+));

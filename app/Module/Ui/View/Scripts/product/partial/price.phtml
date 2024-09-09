@@ -1,0 +1,16 @@
+<?php
+
+use Air\View\View;
+use App\Model\Product;
+use App\Module\Ui\View\Helper\Common;
+
+/** @var View $this */
+
+/** @var Product $product */
+$product = $this->product;
+
+echo span(class: 'fw-bold fs-30', content: Common::price($product->price));
+
+if ($product->oldPrice) {
+  echo span(class: 'o-70 td-lt fs-20 pb-5', content: Common::price($product->oldPrice));
+}

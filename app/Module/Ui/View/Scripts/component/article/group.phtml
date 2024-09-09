@@ -1,0 +1,43 @@
+<?php
+
+use Air\View\View;
+use App\Model\Article;
+use App\Module\Ui\View\Helper\Input;
+
+/** @var View $this */
+
+/** @var string $title */
+$title = $this->title;
+
+/** @var Article[] $articles */
+$articles = $this->articles;
+
+if (!count($articles)) {
+  return;
+}
+
+echo div(
+  data: 'swiper-container',
+  content: [
+    flex(class: 'ai-c jc-sb gp-20 h-40', content: [
+      div(class: 'fw-bold fs-18 fs-md-20', content: $title),
+      Input::pillIconSwiperNav()
+    ]),
+    swiper(
+      slides: $articles,
+      slideClass: 'py-20',
+      options: [
+        'slidesPerView' => 1,
+        'breakpoints' => [
+          '572' => ['slidesPerView' => 2],
+          '992' => ['slidesPerView' => 3],
+          '1400' => ['slidesPerView' => 4],
+        ]
+      ],
+      renderer: function (Article $article) {
+        return $this->partial('component/article/preview/medium', [
+          'article' => $article
+        ]);
+      })
+  ]
+);

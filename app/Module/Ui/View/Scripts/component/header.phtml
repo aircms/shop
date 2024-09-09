@@ -1,0 +1,20 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Helper\Route;
+
+$breadcrumbs = [
+  ...[Phrase::t('Головна') => Route::home()],
+  ...(array)$this->breadcrumbs
+];
+
+echo flex(
+  class: 'ai-c gp-20 fw-bold fs-18 h-40 bw-b-1 bc-secondary my-20',
+  content: div(
+    class: 'h-f c-secondary',
+    content: breadcrumbs(
+      itemClassActive: 'c-secondary',
+      items: $breadcrumbs
+    )
+  )
+);

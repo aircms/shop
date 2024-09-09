@@ -1,0 +1,44 @@
+<?php
+
+use Air\View\View;
+use App\Helper\Route;
+use App\Model\Category;
+use App\Model\Filter;
+
+/** @var View $this */
+
+/** @var Category $category */
+$category = $this->category;
+
+/** @var Filter[] $filters */
+$filters = $category?->filters ?? $this->catalogSettings?->filters ?? [];
+
+/** @var array $selectedFilters */
+$selectedFilters = $this->selectedFilters;
+
+foreach ($filters as $index => $filter) {
+  if (count($filter->values)) {
+    echo widget(
+      title: $filter->title,
+      opened: $index < 3,
+      content: function () use ($filter, $category, $selectedFilters) {
+        echo flex(class: 'py-16 f-c gp-10', content: function () use ($filter, $category, $selectedFilters) {
+          foreach ($filter->values as $value) {
+
+            $checked = in_array($value, $selectedFilters[$filter->url]['values'] ?? []);
+
+            echo a(
+              href: Route::catalog(category: $category, filters: [$filter->url => $value]),
+              class: ['checkbox', $checked ? 'c-primary' : null],
+              data: ['force' => true, 'catalog-filter-change'],
+              content: [
+                checkbox(name: 'filters[' . $filter->url . '][]', value: $value, checked: $checked),
+                $value
+              ]
+            );
+          }
+        });
+      }
+    );
+  }
+}

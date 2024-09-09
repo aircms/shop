@@ -1,0 +1,83 @@
+[class*="lm-"] {
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+}
+
+$utilities: map-merge($utilities, (
+  "font-size": (
+    property: font-size,
+    class: fs,
+    responsive: true,
+    values: map-merge(fill(5, 25, px), fillStep(30, 50, 2, px))
+  ),
+));
+
+$utilities: map-merge($utilities, (
+  "letter-spacing": (
+    property: letter-spacing,
+    class: ls,
+    values: (
+      "m1": -1px,
+      "m08": -0.8px,
+      "m06": -0.6px,
+      "m04": -0.4px,
+      "m02": -0.2px,
+      "0": 0px,
+      "02": 0.2px,
+      "04": 0.4px,
+      "06": 0.6px,
+      "08": 0.8px,
+      "1": 1px
+    )
+  ),
+));
+
+$utilities: map-merge($utilities, (
+  "font-weight": (
+    property: font-weight,
+    class: fw,
+    values: (
+      "bold": 700,
+      "regular": 400,
+      "thin": 200,
+      1: 100,
+      2: 200,
+      3: 300,
+      4: 400,
+      5: 500,
+      6: 600,
+      7: 700,
+      8: 800,
+      9: 900,
+    )
+  ),
+));
+
+$utilities: map-merge($utilities, (
+  "line-height": (
+    property: line-height,
+    class: lh,
+    values: (
+      "0": 0,
+      "02": 0.2em,
+      "04": 0.4em,
+      "06": 0.6em,
+      "08": 0.8em,
+      "1": 1em,
+      "12": 1.2em,
+      "14": 1.4em,
+      "16": 1.6em,
+      "18": 1.8em,
+      "2": 2em,
+    )
+  ),
+));
+
+$utilities: map-merge($utilities, (
+  "max-lines": (
+    property: line-clamp -webkit-line-clamp,
+    class: lm,
+    values: fill(0, 5, ''),
+  ),
+));

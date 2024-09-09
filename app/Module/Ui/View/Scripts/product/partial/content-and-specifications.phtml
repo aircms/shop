@@ -1,0 +1,84 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\Type\File;
+use Air\View\View;
+use App\Model\Product;
+
+/** @var View $this */
+
+/** @var Product $product */
+$product = $this->product;
+
+$content = strlen($product->content) || count($product->richContent);
+$specifications = count($product->fullSpecifications) || count($product->previewSpecifications);
+
+echo div(
+  data: ['tab' => 'secondary'],
+  content: [
+    flex(class: 'ai-c gp-20 fw-bold fs-20 h-40 bw-b-1 bc-level-2-bg', content: [
+      $content ? a(class: 'h-f u-link secondary active', data: 'tab-title', content: Phrase::t('Опис товару')) : null,
+      $specifications ? a(class: 'h-f u-link secondary', data: 'tab-title', content: Phrase::t('Специфікації')) : null,
+    ]
+    ),
+    div(data: $specifications && $content ? 'tab-content' : null, content: function () use ($content, $product, $specifications) {
+      if ($content) {
+        echo flex(class: 'f-c gp-30 py-20', content: function () use ($product) {
+
+          if (strlen($product->content)) {
+            echo richContent($product->content, itemClassName: 'd-f f-c gp-20');
+          }
+
+          if (count($product->richContent)) {
+
+            echo richContent(
+              content: $product->richContent,
+              containerClassName: 'd-f f-c gp-30',
+
+              /** @var File[] $files */
+              filesRenderer: function (array $files) {
+                return $this->partial('component/gallery', [
+                  'images' => $files
+                ]);
+              },
+              fileRenderer: function (File $file) {
+                return img(src: $file, class: 'w-f br-4 of-con p-20 bg-white');
+              },
+              textRenderer: function (string $text) {
+                return div(class: 'd-f f-c gp-20', content: nl2br($text));
+              },
+              htmlRenderer: function (string $html) {
+                return div(class: 'd-f f-c gp-20', content: $html);
+              },
+              embedRenderer: function (string $embed) {
+                return iframe($embed, class: 'br-4 of-h ar-16-9 w-f');
+              },
+            );
+          }
+        });
+      }
+
+      if ($specifications) {
+        echo flex(class: 'f-c gp-20 py-20', content: function () use ($product) {
+          if (count($product->fullSpecifications)) {
+            foreach ($product->fullSpecifications as $specificationGroup) {
+              echo div(content: [
+                div(class: 'fw-bold pb-10', content: $specificationGroup['title']),
+                $this->partial('product/partial/specifications', [
+                  'specifications' => $specificationGroup['fullSpecifications']
+                ])
+              ]);
+            }
+          } elseif (count($product->previewSpecifications)) {
+            echo div(content: [
+              div(class: 'fw-bold pb-10', content: Phrase::t('Основні cпецифікації')),
+              $this->partial('product/partial/specifications', [
+                'specifications' => $product->previewSpecifications
+              ])
+            ]);
+          }
+        });
+      }
+    })
+  ]
+);

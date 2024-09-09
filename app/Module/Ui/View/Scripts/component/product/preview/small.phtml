@@ -1,0 +1,29 @@
+<?php
+
+use Air\View\View;
+use App\Helper\Route;
+use App\Model\Product;
+use App\Module\Ui\View\Helper\Common;
+
+/** @var View $this */
+
+/** @var Product $product */
+$product = $this->product;
+
+echo flex(class: 'br-5 of-h an-2 bw-1 sd-soft-hover bc-level-2-bg sc-level-1 fw-6 cp', content: [
+  a(
+    href: Route::product($product),
+    title: $product->title,
+    content: img(
+      class: 'ar-1-1 p-10 bg-white of-con w-90',
+      src: $product->getImage())),
+
+  flex(class: 'px-12 p-10 f-c gt-10', content: [
+    a(href: Route::product($product), class: 'fw-bold lm-1', content: $product->title),
+    a(href: Route::catalog($product->category), class: 'c-secondary c-secondary-hover lm-1', content: $product->category->title),
+    div(class: 'mt-5', content: [
+      span(class: 'fw-bold fs-14', content: Common::price($product->price)),
+      $product->oldPrice ? span(class: 'ml-10 o-70 text-decoration-line-through fs-12', content: Common::price($product->oldPrice)) : null
+    ])
+  ])
+]);

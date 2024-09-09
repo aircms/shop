@@ -1,0 +1,20 @@
+<?php
+
+use Air\Type\FaIcon;
+use Air\View\View;
+
+/** @var View $this */
+
+/** @var bool $gray */
+$gray = $this->gray;
+
+echo div(
+  class: 'fs-14 lh-12',
+  content: [
+    faIcon('heart', FaIcon::STYLE_SOLID, attributes: ['style' => 'color: ' . (!$gray ? '#0897ff' : 'var(--bs-tertiary-color)')]),
+    faIcon('music', FaIcon::STYLE_SOLID, attributes: ['style' => 'color: ' . (!$gray ? '#fd6f1c' : 'var(--bs-tertiary-color)')], class: 'ml-1'),
+    br(),
+    faIcon('camera', FaIcon::STYLE_SOLID, attributes: ['style' => 'color: ' . (!$gray ? '#ff3599' : 'var(--bs-tertiary-color)')]),
+    faIcon('car', FaIcon::STYLE_SOLID, attributes: ['style' => 'color: ' . (!$gray ? '#6ae5fc' : 'var(--bs-tertiary-color)')], class: 'ml-2')
+  ]
+);

@@ -1,0 +1,20 @@
+<?php
+
+use App\Helper\Route;
+use App\Model\Article;
+use App\Module\Ui\View\Helper\Common;
+
+/** @var Article $article */
+$article = $this->article;
+
+echo flex(class: 'f-c gp-20 sc-body sd-soft-hover an-2 br-4', content: [
+  a(href: Route::article($article), content: img($article->image, class: 'br-4 of-cv ar-3-2 w-f sd-soft-hover')),
+  flex(class: 'jc-sb px-20', content: [
+    a(Route::blog(category: $article->category), $article->category->title, 'fw-6 c-secondary c-secondary-hover r'),
+    div(class: 'o-80 r fs-12', content: Common::date($article->publishedAt))
+  ]),
+  a(class: 'px-20 pb-20', href: Route::article($article), content: [
+    div(class: 'fw-bold fs-18 r lm-2 mb-16 mn-h-40', content: $article->title),
+    div(class: 'o-80 lm-2', content: $article->description)
+  ]),
+]);

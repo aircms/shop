@@ -1,0 +1,58 @@
+<?php
+
+use App\Model\Article;
+
+/** @var Article[] $articles */
+$articles = $this->articles;
+
+echo container(
+  class: 'mb-20',
+  content: row(content: [
+    col(
+      class: 'col-12 col-lg-9',
+      content: [
+        $this->partial('blog/partial/blog/breadcrumbs'),
+        row(content: [
+          col(
+            class: 'col-12 col-lg-6 pb-20 pb-lg-0',
+            content: $this->partial('component/article/preview/big', [
+              'article' => $articles[0]
+            ])),
+          col(
+            class: 'col-12 col-lg-6 pb-20 pb-lg-0',
+            content: flex(
+              class: 'gp-20 f-c',
+              content: function () use ($articles) {
+                for ($i = 1; $i < 5; $i++) {
+                  try {
+                    echo $this->partial('component/article/preview/small', ['article' => $articles[$i]]);
+                  } catch (Throwable) {
+                  }
+                }
+              })),
+        ])
+      ]),
+    col(
+      class: 'col-12 col-lg-3 pt-20',
+      content: $this->partial('blog/partial/aside')),
+  ])
+);
+
+if (count($articles) - 5 > 0) {
+  echo div(
+    class: 'sc-level-1 mt-20 py-20',
+    content: container(
+      content: row(
+        class: 'gt-20',
+        content: function () use ($articles) {
+          for ($i = 5; $i < count($articles); $i++) {
+            echo div(
+              class: 'col-12 col-sm-6 col-lg-4 col-xl-3',
+              content: $this->partial('component/article/preview/medium', [
+                'article' => $articles[$i]
+              ]));
+          }
+        })));
+}
+
+echo $this->partial('blog/partial/blog/paging');

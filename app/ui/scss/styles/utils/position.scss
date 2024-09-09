@@ -1,0 +1,149 @@
+$posValues: ();
+$raw-values: mapMerge(
+    fillStep(-100, -25, 5, 'px'),
+    fill(-20, -1, 'px'),
+    fill(0, 20, 'px'),
+    fillStep(25, 100, 5, 'px')
+);
+
+@each $name, $value in $raw-values {
+  @if ($name < 0) {
+    $posValues: map-merge($posValues, (strReplace(#{$name}, '-', 'm'): #{$value}));
+  } @else {
+    $posValues: map-merge($posValues, ($name: #{$value}));
+  }
+}
+
+$posValuesPercents: map-merge(
+    fill(1, 10, '%'),
+    fillStep(10, 100, 5, '%')
+);
+
+$utilities: map-merge($utilities, (
+  "position": (
+    property: position,
+    class: "p",
+    responsive: true,
+    values: (
+      "r": relative,
+      "a": absolute,
+      "st": static,
+      "f": fixed,
+      "sk": sticky,
+      "u": unset,
+      "i": initial
+    )
+  )
+));
+
+/* PIXELS */
+$utilities: map-merge($utilities, (
+  "position-top-px": (
+    property: top,
+    class: "t",
+    responsive: true,
+    values: $posValues
+  )
+));
+
+$utilities: map-merge($utilities, (
+  "position-right-px": (
+    property: right,
+    class: "r",
+    responsive: true,
+    values: $posValues
+  )
+));
+
+$utilities: map-merge($utilities, (
+  "position-bottom-px": (
+    property: bottom,
+    class: "b",
+    responsive: true,
+    values: $posValues
+  )
+));
+
+$utilities: map-merge($utilities, (
+  "position-left-px": (
+    property: left,
+    class: "l",
+    responsive: true,
+    values: $posValues
+  )
+));
+
+/* PERCENTS */
+$utilities: map-merge($utilities, (
+  "position-top-percents": (
+    property: top,
+    class: "t-pr",
+    responsive: true,
+    values: $posValuesPercents
+  )
+));
+
+$utilities: map-merge($utilities, (
+  "position-right-percents": (
+    property: right,
+    class: "r-pr",
+    responsive: true,
+    values: $posValuesPercents
+  )
+));
+
+$utilities: map-merge($utilities, (
+  "position-bottom-percents": (
+    property: bottom,
+    class: "b-pr",
+    responsive: true,
+    values: $posValuesPercents
+  )
+));
+
+$utilities: map-merge($utilities, (
+  "position-left-percents": (
+    property: left,
+    class: "l-pr",
+    responsive: true,
+    values: $posValuesPercents
+  )
+));
+
+
+/** UNSET */
+$utilities: map-merge($utilities, (
+  "position-top-unset": (
+    property: top,
+    class: "t",
+    responsive: true,
+    values: unset
+  )
+));
+
+$utilities: map-merge($utilities, (
+  "position-right-unset": (
+    property: right,
+    class: "r",
+    responsive: true,
+    values: unset
+  )
+));
+
+$utilities: map-merge($utilities, (
+  "position-bottom-unset": (
+    property: bottom,
+    class: "b",
+    responsive: true,
+    values: unset
+  )
+));
+
+$utilities: map-merge($utilities, (
+  "position-left-unset": (
+    property: left,
+    class: "l",
+    responsive: true,
+    values: unset
+  )
+));

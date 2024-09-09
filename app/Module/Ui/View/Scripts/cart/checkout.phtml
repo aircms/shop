@@ -1,0 +1,54 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Helper\Cart;
+use App\Module\Ui\View\Helper\Product;
+
+$items = Cart::items();
+$price = Cart::price();
+$count = Cart::count();
+
+echo $this->partial('cart/cart/breadcrumbs', ['page' => 'checkout']);
+
+echo container(
+  class: 'mb-60',
+  content: form(
+    data: 'cart-checkout-form',
+    content: row(
+      class: 'gtx-xxl-50',
+      content: [
+        col(class: 'col-12 col-lg-8', content: [
+          $this->partial('cart/checkout/personal-data'),
+          div(class: 'mt-40', content: $this->partial('cart/checkout/delivery')),
+          div(class: 'mt-40', content: $this->partial('cart/checkout/payment'))
+        ]),
+        col(
+          class: 'col-12 col-lg-4 mt-30 mt-lg-0',
+          content: div(
+            class: 'p-sk t-80',
+            content: flex(
+              class: 'sc-level-1 p-10 p-lg-20 br-4 f-c',
+              content: [
+                div(class: 'fs-20 fw-bold mb-10 pb-10 r', content: Phrase::t('Ваше замовлення')),
+                flex(class: 'mb-10 pb-20 pt-10 f-c gp-20 cart-checkout-preview', content: function () use ($items) {
+                  foreach ($items as $item) {
+                    echo Product::small($item->getProduct(), $item->getCount());
+                  }
+                }),
+                flex(class: 'f-c gp-10', data: 'cart-info', content: $this->partial('cart/partial/info')),
+                button(
+                  class: 'btn-primary fw-bold tt-u py-10 d-f jc-c gp-10 ai-c mt-12 mt-lg-22',
+                  isSubmit: true,
+                  content: [
+                    Phrase::t('Створити замовлення'),
+                    faIcon('chevron-right', class: 'fs-12')
+                  ]
+                )
+              ]
+            )
+          )
+        )
+      ]
+    )
+  )
+);

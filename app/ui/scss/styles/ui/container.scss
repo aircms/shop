@@ -1,0 +1,32 @@
+.sc {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+
+.sc-hover:hover {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+
+@each $name, $colors in $special-colors {
+  .sc-#{$name} {
+    background-color: map-get($colors, 'bg');
+    color: map-get($colors, 'color');
+  }
+
+  .sc-#{$name}-hover {
+    background-color: map-get($colors, 'bg');
+    color: map-get($colors, 'color');
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .sc-#{$color} {
+    color: color-contrast($value) if($enable-important-utilities, !important, null);
+    background-color: RGBA(var(--#{$prefix}#{$color}-rgb), var(--#{$prefix}bg-opacity, 1)) if($enable-important-utilities, !important, null);
+  }
+  .sc-#{$color}-hover:hover {
+    color: color-contrast($value) if($enable-important-utilities, !important, null);
+    background-color: RGBA(var(--#{$prefix}#{$color}-rgb), var(--#{$prefix}bg-opacity, 1)) if($enable-important-utilities, !important, null);
+  }
+}

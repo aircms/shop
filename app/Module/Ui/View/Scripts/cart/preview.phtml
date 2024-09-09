@@ -1,0 +1,53 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Helper\Route;
+use App\Model\Coupon;
+use App\Module\Ui\View\Helper\Product;
+use App\Type\CartItem;
+
+/** @var View $this */
+
+/** @var CartItem[] $items */
+$items = $this->items;
+
+/** @var int $count */
+$count = $this->count;
+
+/** @var float $price */
+$price = $this->price;
+
+/** @var Coupon $coupon */
+$coupon = $this->coupon;
+
+/** @var float $priceWithCoupon */
+$priceWithCoupon = $this->priceWithCoupon;
+
+
+echo flex(class: 'f-c gp-0 h-f', content: function () use ($count, $items) {
+  echo div(class: 'pb-10 mr-50 fw-bold tt-u', content: Phrase::t('Кошик'));
+
+  if (!$count) {
+    echo div(class: 'fw-bold ta-c my-20', content: Phrase::t('Ви нічого не додавали до кошика.'));
+    echo a(class: 'btn-secondary mt-10', href: Route::catalog(), content: Phrase::t('Перейти до каталогу'));
+
+  } else {
+    echo div(
+      class: 'flex-g-1 ofx-h ofy-a',
+      content: flex(
+        class: 'f-c gp-20 pt-20',
+        content: function () use ($items) {
+          foreach ($items as $item) {
+            echo Product::small($item->getProduct(), $item->getCount());
+          }
+        }));
+
+    echo div(class: 'pt-10', content: [
+      flex(class: 'zm-09 f-c gp-3', content: $this->partial('cart/partial/info')),
+      flex(class: 'gp-5 pt-10', content: [
+        a(href: Route::cart(), class: 'btn-secondary cp w-pr-50', content: Phrase::t('Кошик')),
+        a(href: Route::checkout(), class: 'btn-dark cp w-pr-50', content: Phrase::t('Замовлення')),
+      ])]);
+  }
+});

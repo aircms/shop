@@ -1,0 +1,44 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Helper\Cart;
+use App\Model\ShopSettings;
+use App\Module\Ui\View\Helper\Input;
+
+$checkout = Cart::getCheckoutData();
+$shopSettings = ShopSettings::singleOne();
+
+echo div('fs-20 fw-bold mb-22 r', Phrase::t('Контактна інформація'));
+
+echo div(
+  class: 'px-20 py-18 br-4 sc-level-1',
+  content: row(class: 'gt-20', content: [
+    col(class: 'col-md-6', content: Input::text(
+      error: Phrase::t('Вкажіть ваше ім\'я'),
+      value: $checkout->firstName,
+      label: Phrase::t('Ім\'я'),
+      name: 'firstName',
+    )),
+    col(class: 'col-md-6', content: Input::text(
+      error: Phrase::t('Вкажіть ваше прізвище'),
+      value: $checkout->lastName,
+      label: Phrase::t('Прізвище'),
+      name: 'lastName',
+    )),
+    col(class: 'col-md-6', content: Input::text(
+      error: Phrase::t('Вкажіть коректний телефон'),
+      inputAttributes: $shopSettings->phoneMaskEnabled && strlen($shopSettings->phoneMask)
+        ? ['data-input-mask' => "+38 000 000 00 00"]
+        : null,
+      value: $checkout->phone,
+      label: Phrase::t('Телефон'),
+      name: 'phone',
+    )),
+    col(class: 'col-md-6', content: Input::text(
+      error: Phrase::t('Вкажіть коректний e-mail'),
+      value: $checkout->email,
+      label: Phrase::t('E-mail'),
+      name: 'email',
+    )),
+  ])
+);

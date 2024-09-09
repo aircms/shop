@@ -1,0 +1,32 @@
+@media (min-width: 768px) {
+  [data-header] {
+    .sticky-flex {
+      display: none !important;
+    }
+
+    .sticky-block {
+      display: none !important;
+    }
+  }
+
+  [data-header].sticky {
+    height: 60px !important;
+    position: sticky !important;
+
+    .sticky-hide {
+      display: none !important;
+    }
+
+    .sticky-flex {
+      display: flex !important;
+    }
+
+    .sticky-block {
+      display: block !important;
+    }
+
+    .search {
+      height: 34px !important;
+    }
+  }
+}

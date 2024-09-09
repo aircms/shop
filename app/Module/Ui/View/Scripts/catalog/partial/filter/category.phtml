@@ -1,0 +1,46 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Helper\Route;
+use App\Model\Category;
+
+/** @var View $this */
+
+/** @var Category $category */
+$category = $this->category;
+$categoryData = [];
+
+if ($category) {
+  $categoryData = $category->getData();
+  $categories = Category::singleAll(['parent' => $categoryData['id']]);
+
+  if (!count($categories)) {
+    if (isset($categoryData['parent'])) {
+      $categories = Category::singleAll(['parent' => $categoryData['parent']]);
+    }
+
+    if (!count($categories)) {
+      $categories = Category::singleAll(['parent' => null]);
+    }
+  }
+
+  echo hidden('category', value: $categoryData['url']);
+
+} else {
+  $categories = Category::singleAll(['parent' => null]);
+}
+
+echo widget(
+  title: Phrase::t('Категорії товарів'),
+  opened: true,
+  content: function () use ($categories, $category, $categoryData) {
+    foreach ($categories as $cat) {
+      echo a(
+        href: Route::catalog(category: $cat),
+        class: ['d-f ai-c bw-b-1 bc-level-3-bg h-40', $category && $cat->id === $categoryData['id'] ? 'c-primary' : null],
+        content: [faIcon(icon: $cat->faIcon, class: 'mr-10'), $cat->title]
+      );
+    }
+  }
+);

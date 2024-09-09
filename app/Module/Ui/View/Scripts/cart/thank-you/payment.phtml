@@ -1,0 +1,41 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Model\Order;
+
+/** @var Order $order */
+$order = $this->order;
+
+echo div(class: 'bw-2 bc-level-3-bg br-4 px-20 py-18', content: [
+  div(class: 'fw-bold fs-18 mb-10', content: match ($order->paymentMethod) {
+    Order::PAYMENT_CASH => Phrase::t('Готівкою при отриманні товару'),
+    Order::PAYMENT_ONLINE => Phrase::t('Онлайн за допомогою MonoBank'),
+    Order::PAYMENT_BANK_INDIVIDUAL => Phrase::t('Безготівковими для фізичних осіб'),
+    Order::PAYMENT_BANK_ENTITY => Phrase::t('Безготівкою для юридичних осіб'),
+  }),
+  div(class: 'd-f f-c gp-10 o-80', content: function () use ($order) {
+    switch ($order->paymentMethod) {
+      case Order::PAYMENT_CASH:
+        echo div(content: Phrase::t('Оплатить заказ при получении товара'));
+        break;
+
+      case Order::PAYMENT_ONLINE:
+        echo div(class: 'd-f f-c ai-s gp-10', content: [
+          Phrase::t('Оплата будь-якою банківською карткою на рахунок MonoBank'),
+          img('images/payment.png', class: 'h-20')
+        ]);
+        break;
+
+      case Order::PAYMENT_BANK_INDIVIDUAL:
+        echo div(content: Phrase::t('Оплата для фізичних осіб через розрахунковий рахунок'));
+        echo div(content: Phrase::t('Зверніть увагу, для оплати обраним способом потрібно ввести код ЄДРПОУ юридичної особи, з розрахункового рахунку якої буде здійснено оплату'));
+        echo div(content: implode(', ', $order->payment));
+        break;
+
+      case Order::PAYMENT_BANK_ENTITY:
+        echo div(content: Phrase::t('Оплата для юридичних осіб через розрахунковий рахунок'));
+        echo div(content: implode(', ', $order->payment));
+        break;
+    }
+  })
+]);

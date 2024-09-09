@@ -1,0 +1,41 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Model\Product;
+
+/** @var View $this */
+
+/** @var Product $product */
+$product = $this->product;
+
+if (count($product->alsoBuyProducts)) {
+  $title = Phrase::t('З цим товаром також купують');
+  $products = $product->alsoBuyProducts;
+} else {
+  $title = Phrase::t('Рекомендовані товари');
+  $product->recommendedProducts;
+}
+
+echo container(
+  content: row(
+    class: 'gt-20 gty-lg-50 gtx-lg-100 pt-2',
+    content: [
+      col(
+        class: 'col-12 col-lg-8',
+        content: div(
+          class: 'p-sk t-65',
+          content: $this->partial('product/partial/content-and-specifications'))),
+      col(
+        class: 'col-12 col-lg-4',
+        content: div(
+          class: 'p-sk t-65',
+          content: [
+            $this->partial('component/product/group/vertical', [
+              'title' => $title,
+              'products' => $products
+            ]),
+            $this->partial('component/adv/vertical')]))
+    ],
+  )
+);

@@ -1,0 +1,42 @@
+<?php
+
+use Air\View\View;
+use App\Model\General;
+
+/** @var View $this */
+
+$general = General::singleOne();
+
+$colors = [
+  'facebook' => '#336699',
+  'twitter' => '#00adef',
+  'instagram' => '#8444fc',
+  'youtube' => '#cc0001',
+  'pinterest' => '#bd081c'
+];
+
+$icon = [
+  'facebook' => 'facebook-f',
+  'twitter' => 'twitter',
+  'instagram' => 'instagram',
+  'youtube' => 'youtube',
+  'pinterest' => 'pinterest-p'
+];
+
+echo flex(class: 'gp-5', content: function () use ($general, $colors, $icon) {
+  foreach ($general->socials as $social) {
+    if (!isset($colors[$social['key']])) {
+      continue;
+    }
+    echo a(
+      href: $social['value'],
+      class: 'br-circle d-f ai-c jc-c h-22 w-22',
+      title: ucfirst($social['key']),
+      attributes: [
+        'target' => '_blank',
+        'style' => 'background-color: ' . $colors[$social['key']]
+      ],
+      content: faIcon(icon: $icon[$social['key']], class: 'r fs-12 c-light')
+    );
+  }
+});

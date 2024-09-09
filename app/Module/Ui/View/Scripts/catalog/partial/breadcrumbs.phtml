@@ -1,0 +1,33 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Helper\Route;
+use App\Model\Category;
+
+/** @var View $this */
+
+/** @var Category $category */
+$category = $this->category;
+
+$breadcrumbs = [Phrase::t('Головна') => Route::home()];
+
+if ($category) {
+  $breadcrumbs[Phrase::t('Каталог')] = Route::catalog();
+  $categoryChain = [$category->title];
+
+  if ($category->parent) {
+    $categoryChain[$category->parent->title] = Route::catalog($category->parent);
+
+    if ($category->parent->parent) {
+      $categoryChain[$category->parent->parent->title] = Route::catalog($category->parent->parent);
+    }
+  }
+
+  $breadcrumbs = [...$breadcrumbs, ...array_reverse($categoryChain)];
+
+} else {
+  $breadcrumbs[] = Phrase::t('Каталог');
+}
+
+echo breadcrumbs(items: $breadcrumbs);

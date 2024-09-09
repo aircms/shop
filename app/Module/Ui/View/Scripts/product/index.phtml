@@ -1,0 +1,48 @@
+<?php
+
+use Air\View\View;
+use App\Model\Product;
+
+/** @var View $this */
+
+/** @var Product $product */
+$product = $this->product;
+
+$isContentOrSpecificationsAvailable =
+  strlen($product->content) ||
+  count($product->richContent) ||
+  count($product->fullSpecifications) ||
+  count($product->previewSpecifications);
+
+$isBothProductsAvailable =
+  count($product->recommendedProducts) &&
+  count($product->alsoBuyProducts);
+
+$isOneOfProductsAvailable =
+  count($product->recommendedProducts) ||
+  count($product->alsoBuyProducts);
+
+echo container(class: 'my-14', content: $this->partial('product/partial/breadcrumbs'));
+echo div(class: 'mt-50', content: $this->partial('product/partial/main'));
+
+if ($isContentOrSpecificationsAvailable) {
+  if ($isBothProductsAvailable) {
+    echo $this->partial('product/partial/layout/full');
+
+  } else if ($isOneOfProductsAvailable) {
+    echo $this->partial('product/partial/layout/content-one-products');
+
+  } else {
+    echo $this->partial('product/partial/layout/content-no-products');
+  }
+} else {
+  if ($isBothProductsAvailable) {
+    echo $this->partial('product/partial/layout/no-content-both-products');
+
+  } else if ($isOneOfProductsAvailable) {
+    echo $this->partial('product/partial/layout/no-content-one-products');
+
+  } else {
+    echo $this->partial('component/adv/horizontal');
+  }
+}

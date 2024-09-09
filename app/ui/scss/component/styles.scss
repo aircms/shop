@@ -1,0 +1,68 @@
+@import "dropdown";
+@import "badge";
+@import "header";
+@import "categories";
+@import "links";
+@import "mobile";
+@import "hover";
+@import "widget";
+@import "checkbox";
+@import "bredcrumb";
+@import "main-menu";
+@import "offcanvas";
+@import "popup";
+@import "tooltip";
+@import "toast";
+@import "rich-content";
+@import "rich-radio";
+@import "inputs";
+@import "odd";
+
+@media (max-width: 767px) {
+  .container {
+    max-width: initial;
+  }
+}
+
+body {
+  overflow-x: hidden;
+}
+
+div {
+  ::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
+@media (max-width: 767px) {
+  [data-welcome] .swiper-slide .container > div {
+    height: auto !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .cart-checkout-preview {
+    max-height: 55dvh;
+    overflow-y: auto;
+  }
+}
+
+.form-input {
+  & > .error {
+    transition: all .2s ease-out;
+    visibility: hidden;
+    opacity: 0;
+    max-height: 0;
+    padding-bottom: 0;
+  }
+
+  &.has-error {
+    & > .error {
+      visibility: visible;
+      opacity: 1;
+      max-height: 100%;
+      padding-bottom: 10px;
+    }
+  }
+}

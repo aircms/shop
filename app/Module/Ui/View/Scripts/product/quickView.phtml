@@ -1,0 +1,64 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Helper\Route;
+use App\Model\Product;
+
+/** @var View $this */
+
+/** @var Product $product */
+$product = $this->product;
+
+echo flex(
+  class: 'f-c gp-0',
+  content: [
+    div(
+      class: 'p-sk t-0 z-2 bg-body-bg pb-16 pr-50',
+      content: a(
+        class: 'fs-20 fw-bold',
+        href: Route::product($product),
+        data: ['title' => Phrase::t('Перейти на сторінку товару'), 'title-placement' => 'bottom'],
+        content: $product->title
+      )),
+    row(class: 'gt-20 gty-md-0 pt-2', content: [
+      col(
+        class: 'col-12 col-md-6',
+        content: $this->partial('component/gallery', [
+          'images' => $product->getImages(),
+          'noImage' => !$product->isImageAvailable()
+        ])),
+      col(
+        class: 'col-12 col-md-6',
+        content: flex(
+          class: 'f-c h-f jc-sb gp-20',
+          content: [
+            flex(class: 'f-c gp-14', content: [
+              $this->partial('product/partial/categories'),
+              $this->partial('product/partial/description'),
+              $this->partial('product/partial/brand-country'),
+              $this->partial('product/partial/specifications', [
+                'specifications' => $product->previewSpecifications
+              ])
+            ]),
+            flex(
+              class: 'jc-sb gp-20 p-sk p-md-u b-0 bg-body-bg pt-20 pt-md-0',
+              content: div(
+                class: 'zm-08 w-f',
+                content: flex(
+                  class: 'gp-20 f-c f-sm-r f-md-c ai-xxl-e f-xxl-r',
+                  content: [
+                    div(
+                      class: 'ta-l flex-s-0 d-f ai-e gp-20 f-xxl-c ai-xxl-s gp-xxl-0 zm-xxl-09',
+                      content: $this->partial('product/partial/price'),
+                    ),
+                    $this->partial('product/partial/add-to-cart')
+                  ]
+                )
+              )
+            )
+          ]
+        ))
+    ])
+  ]
+);

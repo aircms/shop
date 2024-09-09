@@ -1,0 +1,13 @@
+.tooltip {
+  --bs-tooltip-color: var(--bs-body-bg);
+  --bs-tooltip-bg: var(--bs-body-color);
+  box-shadow: 0 0 15px -6px black;
+  border-radius: 8px;
+}
+
+[data-bs-theme="dark"] {
+  .tooltip {
+    --bs-tooltip-color: var(--level-6-color);
+    --bs-tooltip-bg: var(--level-6-bg);
+  }
+}

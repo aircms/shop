@@ -1,0 +1,15 @@
+$values: (0: none);
+@for $i from 1 to 11 {
+  $value: calc($i / 10);
+  $values: map-merge($values, ($i: all #{$value}s ease-in-out));
+}
+
+$utilities: map-merge($utilities, (
+  "animation": (
+    property: transition,
+    class: an,
+    responsive: false,
+    state: hover,
+    values: $values
+  )
+));

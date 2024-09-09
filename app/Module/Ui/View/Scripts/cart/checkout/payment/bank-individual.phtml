@@ -1,0 +1,54 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Helper\Cart;
+use App\Model\ShopSettings;
+use App\Module\Ui\View\Helper\Input;
+
+$checkout = Cart::getCheckoutData();
+$shopSettings = ShopSettings::singleOne();
+
+echo row(class: 'mb-20', content: [
+  col(class: 'col-12 col-md-8 pb-2 o-80', content: Phrase::t('Оплата для фізичних осіб через розрахунковий рахунок')),
+  col(class: 'col-12 col-md-4 ta-r',
+    content: a(class: 'c-secondary c-secondary-hover td-u', attributes: ['data-repeat-data'], content: Phrase::t('Використати вищезазначені дані'))
+  )
+]);
+
+echo row(class: 'gt-20', content: [
+  col('col-12 col-md-6',
+    Input::text(
+      label: Phrase::t('Ім\'я'),
+      error: Phrase::t('Вкажіть ваше ім\'я'),
+      value: $checkout->door->city,
+      name: 'bankIndividual[firstName]',
+    )
+  ),
+  col('col-12 col-md-6',
+    Input::text(
+      label: Phrase::t('Прізвище'),
+      error: Phrase::t('Вкажіть ваше прізвище'),
+      value: $checkout->bankIndividual->lastName,
+      name: 'bankIndividual[lastName]',
+    )
+  ),
+  col('col-12 col-md-6',
+    Input::text(
+      label: Phrase::t('По-батькові'),
+      error: Phrase::t('Вкажіть ваше по батькові'),
+      value: $checkout->bankIndividual->patronymic,
+      name: 'bankIndividual[patronymic]',
+    )
+  ),
+  col('col-12 col-md-6',
+    Input::text(
+      label: Phrase::t('Телефон'),
+      error: Phrase::t('Вкажіть ваш телефон'),
+      value: $checkout->bankIndividual->phone,
+      name: 'bankIndividual[phone]',
+      inputAttributes: $shopSettings->phoneMaskEnabled && strlen($shopSettings->phoneMask)
+        ? ['data-input-mask' => "+38 000 000 00 00"]
+        : null,
+    )
+  ),
+]);

@@ -1,0 +1,17 @@
+<?php
+
+use Air\View\View;
+use App\Model\ShowcaseProducts;
+
+/** @var View $this */
+
+foreach (ShowcaseProducts::all() as $showcaseProduct) {
+  echo div(
+    class: 'container py-20 py-md-30',
+    content: $this->partial('component/product/group/banner', [
+      'title' => $showcaseProduct->title,
+      'mobileBanner' => $showcaseProduct->mobileBanner,
+      'desktopBanner' => $showcaseProduct->desktopBanner,
+      'products' => $showcaseProduct->products
+    ]));
+}

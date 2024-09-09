@@ -1,0 +1,42 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Helper\Route;
+use App\Model\Category;
+use App\Model\Country;
+
+/** @var View $this */
+
+/** @var Category $category */
+$category = $this->category;
+
+/** @var Country[] $countries */
+$countries = $category?->countries ?? $this->catalogSettings?->countries ?? [];
+
+if (!count($countries)) {
+  return;
+}
+
+/** @var Country[] $selectedCountries */
+$selectedCountries = $this->selectedCountries ?? [];
+
+echo widget(
+  title: Phrase::t('Країни виробники'),
+  opened: true,
+  content: function () use ($category, $countries, $selectedCountries) {
+    echo div(class: 'py-8', content: function () use ($category, $countries, $selectedCountries) {
+      foreach ($countries as $country) {
+        echo flex(class: 'ai-c h-30', content: a(
+          href: Route::catalog(category: $category, countries: [$country]),
+          class: ['checkbox', in_array($country->url, array_keys($selectedCountries)) ? 'c-primary' : null],
+          data: ['force' => true, 'catalog-filter-change'],
+          content: [
+            checkbox('countries[]', value: $country->url, checked: in_array($country->url, array_keys($selectedCountries))),
+            $country->title
+          ]
+        ));
+      }
+    });
+  }
+);

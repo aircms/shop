@@ -1,0 +1,109 @@
+<?php
+
+use App\Model\Order;
+
+/** @var Order $order */
+$order = $this->order;
+?>
+<div class="card">
+  <div class="card-body p-3">
+    <div class="row">
+      <div class="col-4">
+        <h6 class="p-0 m-0 lead">
+          <i class="fas fa-receipt me-1"></i>
+          Оплата
+        </h6>
+      </div>
+      <div class="col-8 text-end">
+        <span class="badge badge-primary">
+          <?php echo match ($order->paymentMethod) {
+            Order::PAYMENT_CASH => 'При отриманні',
+            Order::PAYMENT_ONLINE => 'Mono pay',
+            Order::PAYMENT_BANK_INDIVIDUAL => 'Фіз. лице',
+            default => 'Юр. лице',
+          }; ?>
+        </span>
+      </div>
+    </div>
+    <?php if (in_array($order->paymentMethod, [Order::PAYMENT_BANK_INDIVIDUAL, Order::PAYMENT_BANK_ENTITY])) : ?>
+      <hr class="mt-3">
+      <?php foreach ($order->payment as $key => $value) : ?>
+        <div class="row mt-3">
+          <div class="col-4"><?php echo ucfirst($key); ?></div>
+          <div class="col-8 text-info text-end"><?php echo $value; ?></div>
+        </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
+
+
+    <?php if ($order->paymentMethod === Order::PAYMENT_ONLINE) : ?>
+
+      <hr class="mt-3">
+
+      <div class="row mt-3">
+
+        <div class="col-4">
+          Статус
+        </div>
+
+        <div class="col-8 text-end">
+          <div class="d-flex align-items-center justify-content-end">
+            <?php if ($order->status === Order::PAYMENT_STATUS_SUCCESS) : ?>
+              <span class="badge badge-success">Успіх</span>
+
+            <?php elseif ($order->status === Order::PAYMENT_STATUS_IN_PROGRESS) : ?>
+              <span class="badge badge-warning">В процесі</span>
+
+            <?php elseif (in_array($order->status, [Order::PAYMENT_STATUS_NOT_AUTHORIZED, Order::PAYMENT_STATUS_NOT_CONFIRMED, Order::PAYMENT_STATUS_FAIL,])) : ?>
+              <span class="badge badge-danger">
+                <?php echo match ($order->status) {
+                  Order::PAYMENT_STATUS_NOT_AUTHORIZED => 'Не авторизовано',
+                  Order::PAYMENT_STATUS_NOT_CONFIRMED => 'Не підтверджено',
+                  Order::PAYMENT_STATUS_PAYMENT_ON_DELIVERY => 'При отриманні',
+                  Order::PAYMENT_STATUS_FAIL => 'Не успіх',
+                }; ?>
+              </span>
+            <?php endif; ?>
+
+            <?php if ($order->status !== Order::PAYMENT_STATUS_SUCCESS) : ?>
+              <a role="button"
+                 class="btn btn-danger ms-2"
+                 onclick="$.get('/order/refresh?id=<?php echo $order->id; ?>', () => {nav.reload(); notify.success('Замовлення успішно оновлено')});">
+                <i class="fa fa-refresh"></i>
+                Оновити
+              </a>
+            <?php endif; ?>
+          </div>
+        </div>
+      </div>
+
+      <?php foreach (($order->acquiring['info'] ?? []) as $key => $value) : ?>
+
+        <?php if (!is_array($value)) : ?>
+          <div class="row mt-3">
+            <div class="col-4">
+              <?php echo ucfirst($key); ?>
+            </div>
+            <div class="col-8 text-end text-primary">
+              <?php echo $value; ?>
+            </div>
+          </div>
+
+        <?php elseif ($key === 'paymentInfo') : ?>
+          <?php foreach (($order->acquiring['info']['paymentInfo'] ?? []) as $pKey => $pValue) : ?>
+              <div class="row mt-3">
+                <div class="col-4">
+                  <?php echo ucfirst($pKey); ?>
+                </div>
+                <div class="col-8 text-end text-primary">
+                  <?php echo $pValue; ?>
+                </div>
+              </div>
+          <?php endforeach; ?>
+
+        <?php endif; ?>
+      <?php endforeach; ?>
+
+    <?php endif; ?>
+  </div>
+</div>

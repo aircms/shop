@@ -1,0 +1,11 @@
+<?php
+
+use Air\Cache;
+
+echo Cache::quick(['index', 'showcase'], function () {
+  echo $this->partial('index/showcase/slider');
+  echo $this->partial('index/showcase/top-categories');
+  echo $this->partial('index/showcase/products');
+  echo $this->partial('index/showcase/blog');
+  echo $this->partial('component/adv/horizontal');
+});

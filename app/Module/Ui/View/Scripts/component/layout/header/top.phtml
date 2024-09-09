@@ -1,0 +1,22 @@
+<?php
+
+use App\Model\General;
+
+$general = General::singleOne();
+
+echo div(
+  class: 'sc-level-3 d-n d-md-b p-r z-1',
+  content: container(
+    flex(
+      class: 'ai-c jc-sb h-44',
+      content: [
+        h1(class: 'fs-11 r', content: $general->title),
+        flex(class: 'ai-c gp-15', content: [
+          $this->partialCached('component/layout/partial/language'),
+          div(class: 'sc-level-5 w-1 h-20'),
+          $this->partialCached('component/layout/partial/socials')
+        ])
+      ]
+    )
+  )
+);

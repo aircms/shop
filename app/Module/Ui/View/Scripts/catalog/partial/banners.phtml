@@ -1,0 +1,34 @@
+<?php
+
+use Air\Type\FaIcon;
+use Air\View\View;
+use App\Type\Banner;
+
+/** @var View $this */
+
+/** @var Banner[] $banners */
+$banners = $this->category?->banners ?? $this->catalogSettings?->banners ?? [];
+
+if (count($banners)) {
+  echo swiper(
+    dataId: 'catalog-banner',
+    mainClass: 'br-4',
+    slides: $banners,
+    additionalContent: [
+      div(
+        class: 'p-a z-1 b-20 r-55 br-circle sc-secondary d-f ai-c jc-c w-30 h-30 cp',
+        attributes: 'data-catalog-banner-nav-prev',
+        content: faIcon('chevron-left', style: FaIcon::STYLE_SOLID, class: 'fs-10')
+      ),
+      div(
+        class: 'p-a z-1 b-20 r-15 br-circle sc-secondary d-f ai-c jc-c w-30 h-30 cp',
+        attributes: 'data-catalog-banner-nav-next',
+        content: faIcon('chevron-right', style: FaIcon::STYLE_SOLID, class: 'fs-10')
+      )
+    ],
+    renderer: function (Banner $banner) {
+      return $this->partial('component/banner', [
+        'banner' => $banner
+      ]);
+    });
+}

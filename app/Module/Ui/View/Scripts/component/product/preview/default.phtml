@@ -1,0 +1,85 @@
+<?php
+
+use Air\View\View;
+use Air\Crud\Model\Phrase;
+use App\Helper\Route;
+use App\Model\Product;
+use App\Module\Ui\View\Helper\Common;
+use App\Module\Ui\View\Helper\Input;
+
+/** @var View $this */
+
+/** @var Product $product */
+$product = $this->product;
+
+$image = $product->getImage();
+
+echo div(
+  class: 'bw-1 br-5 sd-soft-hover an-2 hover bc-level-2-bg sc-level-1',
+  content: [
+    div(
+      class: 'p-r bg-white br-t-5 of-h',
+      content: function () use ($product, $image) {
+
+        echo a(
+          class: 'w-f d-b p-20',
+          href: Route::product($product),
+          title: $product->title,
+          content: img(src: $image, class: 'w-f of-con h-150')
+        );
+
+        if ($product->isSale || $product->isNew) {
+          echo flex(
+            class: 'p-a f-c ai-s gp-5 t-10 l-10 t-md-20 l-md-20',
+            content: [
+              $product->isSale ? Input::pillIcon(icon: 'tag', title: Phrase::t('Розпродаж'), titlePlacement: 'right') : '',
+              $product->isNew ? Input::pillIcon(icon: 'star', title: Phrase::t('Новинка'), titlePlacement: 'right', style: 'primary') : ''
+            ]
+          );
+        }
+
+        echo flex(
+          class: 'hover-box an-1 p-a r-10 t-10 r-md-20 t-md-20 f-c gp-5',
+          content: [
+            Input::pillIcon(
+              icon: 'bag-shopping',
+              style: 'body',
+              hover: 'primary',
+              data: ['cart-add' => $product->url],
+              title: Phrase::t('Додати у кошик'),
+              titlePlacement: 'left'
+            ),
+            Input::pillIcon(
+              icon: 'heart',
+              style: 'body',
+              hover: 'primary',
+              title: Phrase::t('Додати у вабране'),
+              titlePlacement: 'left'
+            ),
+            Input::pillIcon(
+              icon: 'magnifying-glass',
+              style: 'body',
+              hover: 'primary',
+              title: Phrase::t('Швидкий перегяд'),
+              titlePlacement: 'left',
+              data: ['popup-href' => Route::productQuickView($product)]
+            )
+          ]
+        );
+      }
+    ),
+    flex(
+      class: 'px-10 py-8 px-sm-20 py-sm-16 f-c gp-5',
+      content: [
+        a(class: 'lm-2 h-44 fw-bold', href: Route::product($product), content: $product->title),
+        a(class: 'c-secondary lm-1 fw-5', href: Route::catalog($product->category), content: $product->category->title),
+        div(content: function () use ($product) {
+          echo span(class: 'fw-bold fs-14', content: Common::price($product->price));
+          if ($product->oldPrice) {
+            echo span(class: 'ml-10 o-70 td-lt fs-12', content: Common::price($product->oldPrice));
+          }
+        })
+      ]
+    )
+  ]
+);

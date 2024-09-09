@@ -1,0 +1,89 @@
+<?php
+
+use Air\Core\Exception\ClassWasNotFound;
+use Air\Core\Exception\DomainMustBeProvided;
+use Air\Model\Driver\Mongodb\Cursor;
+use Air\Model\Exception\CallUndefinedMethod;
+use Air\Model\Exception\ConfigWasNotProvided;
+use Air\Model\Exception\DriverClassDoesNotExists;
+use Air\Model\Exception\DriverClassDoesNotExtendsFromDriverAbstract;
+use Air\View\View;
+use App\Helper\Route;
+use App\Model\Category;
+
+/** @var View $this */
+
+/**
+ * @param Cursor $categories
+ * @return bool
+ * @throws CallUndefinedMethod
+ * @throws ClassWasNotFound
+ * @throws ConfigWasNotProvided
+ * @throws DriverClassDoesNotExists
+ * @throws DriverClassDoesNotExtendsFromDriverAbstract
+ */
+$isClearLayer = function (Cursor $categories): bool {
+  foreach ($categories as $category) {
+    $subCategoriesCount = Category::quantity(['parent' => $category]);
+    if ($subCategoriesCount) {
+      return false;
+    }
+  }
+  return true;
+};
+
+/**
+ * @param Category $category
+ * @return string
+ * @throws CallUndefinedMethod
+ * @throws ClassWasNotFound
+ * @throws ConfigWasNotProvided
+ * @throws DomainMustBeProvided
+ * @throws DriverClassDoesNotExists
+ * @throws DriverClassDoesNotExtendsFromDriverAbstract
+ * @throws ReflectionException
+ * @throws Throwable
+ */
+$item = function (Category $category) {
+  return a(Route::catalog(category: $category), class: 'd-f ai-c', content: [
+    faIcon(icon: $category->faIcon, class: 'icon'),
+    span($category->title),
+    faIcon(icon: 'chevron-up', class: 'chevron'),
+  ]);
+};
+
+echo ul(class: 'categories', content: function () use ($item, $isClearLayer) {
+  foreach (Category::singleAll(['parent' => null]) as $category) {
+    echo li(function () use ($category, $item, $isClearLayer) {
+      echo $item($category);
+
+      if ($subCategories = Category::singleAll(['parent' => $category])) {
+        if ($isClearLayer($subCategories)) {
+          echo ul(class: 'clear', content: function () use ($subCategories, $item) {
+            foreach ($subCategories as $subCategory) {
+              echo li(function () use ($subCategory, $item) {
+                echo $item($subCategory);
+              });
+            }
+          });
+
+        } else {
+          echo ul(function () use ($subCategories, $item) {
+            foreach ($subCategories as $subCategory) {
+              echo li(content: function () use ($item, $subCategory) {
+                echo $item($subCategory);
+                if ($subSubCategories = Category::singleAll(['parent' => $subCategory])) {
+                  echo ul(function () use ($subSubCategories, $item) {
+                    foreach ($subSubCategories as $subSubCategory) {
+                      echo li($item($subSubCategory));
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+  }
+});

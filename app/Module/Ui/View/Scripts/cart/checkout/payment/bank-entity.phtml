@@ -1,0 +1,29 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Helper\Cart;
+use App\Module\Ui\View\Helper\Input;
+
+$checkout = Cart::getCheckoutData();
+
+echo div(class: 'mb-10 o-80', content: Phrase::t('Оплата для юридичних осіб через розрахунковий рахунок'));
+echo div(class: 'mb-10 o-80', content: Phrase::t('Зверніть увагу, для оплати обраним способом потрібно ввести код ЄДРПОУ юридичної особи, з розрахункового рахунку якої буде здійснено оплату'));
+
+echo row([
+  col(class: 'col-6',
+    content: Input::text(
+      label: Phrase::t('Код ЄДРПОУ'),
+      error: Phrase::t('Укажите ваш код ЕГРПОУ'),
+      name: 'bankEntity[edrpou]',
+      value: $checkout->bankEntity->edrpou
+    )
+  ),
+  col(class: 'col-6',
+    content: Input::text(
+      label: Phrase::t('Полное название юридического лица'),
+      error: Phrase::t('Укажите название вашего юридического лица'),
+      name: 'bankEntity[entityName]',
+      value: $checkout->bankEntity->entityName
+    )
+  )
+]);

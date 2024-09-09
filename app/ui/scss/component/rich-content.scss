@@ -1,0 +1,49 @@
+.html {
+  h1, h2, h3, h4, h5, p, ul, ol, li {
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-weight: 600;
+  }
+
+  a {
+    color: var(--bs-secondary);
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  ol {
+    padding-left: 15px;
+
+    & > li::marker {
+      color: var(--bs-secondary);
+      font-weight: 600;
+    }
+  }
+
+  ul {
+    list-style: none;
+
+    & > li {
+      padding-left: 10px;
+      position: relative;
+
+      &:before {
+        content: " ";
+        position: absolute;
+        top: 8px;
+        left: 0;
+        display: block;
+        height: 5px;
+        width: 5px;
+        border-radius: 50%;
+        background: var(--bs-secondary);
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+$utilities: map-merge($utilities, (
+  "object-fit": (
+    responsive: true,
+    property: object-fit,
+    class: of,
+    values: (
+      con: contain,
+      cv: cover,
+      f: fill,
+      s: scale-down,
+      n: none,
+    )
+  ),
+));

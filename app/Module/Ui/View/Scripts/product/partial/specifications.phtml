@@ -1,0 +1,21 @@
+<?php
+
+use Air\View\View;
+
+/** @var View $this */
+
+/** @var array $specifications */
+$specifications = $this->specifications;
+
+if (!count($specifications)) {
+  return false;
+}
+
+echo div(class: 'of-h br-4 fs-13 fs-lg-14', content: function () use ($specifications) {
+  foreach ($specifications as $index => $specification) {
+    echo flex(class: $index % 2 ? 'sc-level-1' : 'sc-level-2', content: [
+      div(class: 'w-pr-50 px-10 py-8 px-lg-12 py-lg-10', content: $specification['key']),
+      div(class: 'ta-r fw-bold w-pr-50 px-10 py-8', content: $specification['value'])
+    ]);
+  }
+});

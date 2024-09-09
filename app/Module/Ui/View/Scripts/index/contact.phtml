@@ -1,0 +1,109 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\Type\FaIcon;
+use App\Helper\Route;
+use App\Model\Contact;
+use App\Module\Ui\View\Helper\Input;
+
+/** @var Contact $contact */
+$contact = $this->contact;
+
+echo container(
+  class: 'mb-60',
+  content: [
+    $this->partial('component/header', ['breadcrumbs' => $contact->title]),
+    row(class: 'gt-20 mt-20', content: [
+      col(
+        class: 'col-12 col-lg-6',
+        content: flex(
+          class: 'gp-40 f-c',
+          content: [
+            flex(class: 'gp-10 f-c', content: [
+              h2(class: 'fw-6 r', content: $contact->subTitle),
+              p(class: 'o-80 fs-16 r', content: $contact->description),
+            ]),
+            flex(class: 'gp-10 f-c', content: function () use ($contact) {
+              echo h3(class: 'c-secondary r fs-18', content: [
+                faIcon('envelope', style: FaIcon::STYLE_DUOTONE, class: 'mr-5'),
+                Phrase::t('Надішліть нам електронний лист')
+              ]);
+              foreach ($contact->emails as $email) {
+                echo a(href: Route::email($email), content: $email, class: 'fs-16 r o-80 td-u');
+              }
+            }),
+            flex(class: 'gp-10 f-c', content: function () use ($contact) {
+              echo h3(class: 'c-secondary r fs-18', content: [
+                faIcon('phone-volume', style: FaIcon::STYLE_DUOTONE, class: 'mr-5'),
+                Phrase::t('Або зателефонуйте під одному з цих телефонів')
+              ]);
+              foreach ($contact->phones as $phone) {
+                echo a(href: Route::tel($phone), content: $phone, class: 'fs-16 r o-80 td-u');
+              }
+            }),
+            flex(class: 'gp-10 f-c', content: [
+              h3(class: 'c-secondary r fs-18', content: [
+                faIcon('share', style: FaIcon::STYLE_DUOTONE, class: 'mr-5'),
+                Phrase::t('Ми у соц. мережах')
+              ]),
+              $this->partial('component/layout/partial/socials')
+            ])
+          ]
+        )
+      ),
+      col(
+        class: 'col-12 col-lg-6',
+        content: div(
+          class: 'sc-level-1 p-20 br-4',
+          content: [
+            flex(
+              class: 'f-c gp-40 p-0 px-md-20 py-md-18',
+              content: [
+                h2(
+                  class: 'r fw-6',
+                  content: Phrase::t('Залишились питання?')
+                ),
+                form(
+                  class: 'br-4 sc-level-1',
+                  data: ['contact-form'],
+                  content: row(class: 'gt-20', content: [
+                    col(class: 'col-12', content: Input::text(
+                      error: Phrase::t('Вкажіть ваше ім\'я'),
+                      label: Phrase::t('Ім\'я'),
+                      name: 'name',
+                    )),
+                    col(class: 'col-12 col-md-6', content: Input::text(
+                      error: Phrase::t('Вкажіть ваш телефон'),
+                      label: Phrase::t('Телефон'),
+                      name: 'phone',
+                    )),
+                    col(class: 'col-12 col-md-6', content: Input::text(
+                      error: Phrase::t('Вкажіть ваш E-mail'),
+                      label: Phrase::t('E-mail'),
+                      name: 'email',
+                    )),
+                    col(
+                      class: 'col-12',
+                      content: flex(
+                        class: 'jc-e',
+                        content: button(
+                          class: 'btn-primary fw-bold tt-u py-10 d-f jc-c gp-10 ai-c',
+                          isSubmit: true,
+                          content: [
+                            Phrase::t('Надіслати'),
+                            faIcon('chevron-right', class: 'fs-12')
+                          ]
+                        ),
+                      )
+                    ),
+                  ])
+                )
+              ]
+            )
+          ]
+        )
+      ),
+    ]),
+    div(class: 'mt-40', content: iframe($contact->map, class: 'ar-16-9 w-f br-4'))
+  ]
+);

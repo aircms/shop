@@ -1,0 +1,38 @@
+[class*="card"] {
+  padding: 18px 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 var(--shadow-soft-blur) var(--shadow-soft-spread) var(--shadow-soft-color);
+}
+
+.card {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+
+.card-hover:hover {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+
+@each $name, $colors in $special-colors {
+  .card-#{$name} {
+    background-color: map-get($colors, 'bg');
+    color: map-get($colors, 'color');
+  }
+
+  .card-#{$name}-hover {
+    background-color: map-get($colors, 'bg');
+    color: map-get($colors, 'color');
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .card-#{$color} {
+    color: color-contrast($value) if($enable-important-utilities, !important, null);
+    background-color: RGBA(var(--#{$prefix}#{$color}-rgb), var(--#{$prefix}bg-opacity, 1)) if($enable-important-utilities, !important, null);
+  }
+  .card-#{$color}-hover:hover {
+    color: color-contrast($value) if($enable-important-utilities, !important, null);
+    background-color: RGBA(var(--#{$prefix}#{$color}-rgb), var(--#{$prefix}bg-opacity, 1)) if($enable-important-utilities, !important, null);
+  }
+}

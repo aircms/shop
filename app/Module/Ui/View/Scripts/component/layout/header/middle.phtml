@@ -1,0 +1,101 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\Type\FaIcon;
+use Air\View\View;
+use App\Helper\Cart;
+use App\Helper\Route;
+use App\Model\General;
+
+/** @var View $this */
+
+$general = General::singleOne();
+$count = Cart::count();
+
+echo div(
+  class: 'sc-level-1 sd-soft sd-md-0 h-60 h-md-110 t-0 p-sk p-md-u an-2 z-3',
+  data: 'header',
+  content: container(
+    class: 'h-f',
+    content: flex(
+      class: 'ai-c h-f',
+      content: [
+        div(
+          class: 'w-300 flex-g-1 flex-md-g-0',
+          content: [
+            flex(class: 'ai-c', content: [
+              flex(class: 'ai-c pl-18 d-md-n h-60 w-60 p-a t-0 l-0 cp', data: ['offcanvas' => '#mobileMenu'], content: [
+                faIcon(icon: 'bars', style: FaIcon::STYLE_LIGHT, class: 'fs-20'),
+                div(attributes: ['id' => 'mobileMenu'], class: 'd-n', data: ['async' => Route::asyncMobileMenu()])
+              ]),
+              a(href: Route::home(), title: $general->title, class: 'sticky-hide ml-40 ml-md-0', content: [
+                img(src: 'images/logo-dark.png', alt: $general->title, title: $general->title, class: 'h-26 h-md-40 only-light'),
+                img(src: 'images/logo-light.png', alt: $general->title, title: $general->title, class: 'h-26 h-md-40 only-dark')
+              ]),
+            ]),
+            div(
+              class: 'sticky-block d-n',
+              content: dropdown(
+                containerClass: 'mr-20',
+                buttonClass: 'h-60 bw-r-1 bc-level-3-bg pr-20',
+                boxClass: 'sc-level-3 w-f br-4 an-2 sd-soft',
+                buttonAttributes: ['href' => Route::catalog()],
+                button: [
+                  div('mr-10', $this->partial('component/layout/partial/catalog-logo')),
+                  span(class: 'tt-u fw-6 flex-g-1', content: Phrase::t('Перегляд категорій')),
+                ],
+                box: div(data: ['async' => Route::asyncCategories()])
+              ))
+          ]
+        ),
+        div(
+          class: 'flex-g-1',
+          content: div(
+            class: 'd-n d-lg-b',
+            content: $this->partialCached('component/layout/partial/search'))),
+        div(
+          class: 'sticky-block',
+          content: div(
+            class: 'ml-md-20 d-n d-lg-b',
+            content: div(
+              class: 'dropdown',
+              content: [
+                a(class: 'fw-bold d-f ai-c h-60', content: [
+                  span(class: 'u-link', content: Phrase::t('Головне Меню')),
+                  faIcon(icon: 'chevron-down', class: 'fs-10 ml-5')
+                ]),
+                div(
+                  class: 'dropdown-box br-4 sc-level-1 w-200 sd-soft',
+                  content: div(class: 'sticky-menu', content: $this->partialCached('component/layout/partial/menu')))
+              ]
+            )
+          )
+        ),
+        div(class: 'd-b d-md-n', content: $this->partialCached('component/layout/partial/language')),
+        flex(class: 'ai-c ml-20 gp-10', content: [
+          a(
+            class: 'fs-30 c-primary',
+            href: Route::tel($general->phones['0']),
+            data: ['title' => Phrase::t('Подзвонити нам'), 'switch-theme'],
+            content: faIcon(icon: 'phone-volume', style: FaIcon::STYLE_DUOTONE)
+          ),
+          div(class: 'd-n d-md-f f-c sticky-hide', content: [
+            a(class: 'r', content: Phrase::t('Написати нам')),
+            a(class: 'r fw-6 fs-16 ls-m08', href: Route::tel($general->phones[0]), content: $general->phones[0]),
+          ])
+        ]),
+        div(class: 'h-30 w-1 sc-level-5 ml-30 d-n d-md-b sticky-hide'),
+        flex(class: 'jc-sb ai-c ml-16', content: [
+          a(class: 'd-n d-sm-f f-c ai-c an-2', data: ['title' => Phrase::t('Вибране')], content: [
+            faIcon(icon: 'heart', style: FaIcon::STYLE_LIGHT, attributes: ['data-badge' => '23'], class: 'fs-30 fs-md-25 lh-1'),
+            span(class: 'r mt-5 fs-12 d-n d-md-b sticky-hide', content: Phrase::t('Вибране'))
+          ]),
+          a(class: 'd-f f-c ai-c an-2 ml-0 ml-sm-20', data: ['cart-open', 'title' => Phrase::t('Кошик')], content: [
+            faIcon(icon: 'bag-shopping', style: FaIcon::STYLE_LIGHT, attributes: ['data-badge' => $count, 'data-cart-count-badge'], class: 'fs-30 fs-md-25 lh-1'),
+            span(class: 'r mt-5 fs-12 d-n d-md-b sticky-hide', content: Phrase::t('Кошик'))
+          ]),
+        ]),
+      ]
+    )
+  )
+);

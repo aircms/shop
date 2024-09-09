@@ -1,0 +1,39 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Helper\Cart;
+use App\Model\Order;
+use App\Model\ShopSettings;
+
+$checkout = Cart::getCheckoutData();
+$shopSettings = ShopSettings::singleOne();
+
+echo div(content: [
+  div(class: 'fs-20 fw-bold mb-20 r', content: Phrase::t('Доставка')),
+  richRadio(
+    name: 'delivery',
+    value: $checkout->delivery,
+    radios: [
+//      $shopSettings->deliveryNewPostDoorEnabled && strlen($shopSettings->newPostApiKey) ? [
+//        'value' => Order::DELIVERY_NEW_POST_DOOR,
+//        'title' => Phrase::t('Доставка додому за допомогою Нової Пошти'),
+//        'content' => $this->partial('cart/checkout/delivery/new-post-door')
+//      ] : null,
+//      $shopSettings->deliveryNewPostWarehouseEnabled && strlen($shopSettings->newPostApiKey) ? [
+//        'value' => Order::DELIVERY_NEW_POST_WAREHOUSE,
+//        'title' => Phrase::t('Самовивіз із відділення Нової Пошти'),
+//        'content' => 'delivery/new-post-warehouse'
+//      ] : null,
+      $shopSettings->deliveryDoorEnabled ? [
+        'value' => Order::DELIVERY_DOOR,
+        'title' => Phrase::t('Доставка додому'),
+        'content' => $this->partial('cart/checkout/delivery/door')
+      ] : null,
+      $shopSettings->deliveryWarehouseEnabled ? [
+        'value' => Order::DELIVERY_WAREHOUSE,
+        'title' => Phrase::t('Самовивіз із нашого магазину'),
+        'content' => Phrase::t('Ви зможете забрати замовлення за адресою Одеса, вул. Грецька, 1, з 9:00 до 18:00.')
+      ] : null,
+    ]
+  )
+]);

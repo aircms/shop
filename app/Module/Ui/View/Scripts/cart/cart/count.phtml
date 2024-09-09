@@ -1,0 +1,30 @@
+<?php
+
+use Air\Type\FaIcon;
+use Air\View\View;
+use App\Type\CartItem;
+
+/** @var View $this */
+
+/** @var CartItem $item */
+$item = $this->item;
+
+echo form(
+  class: 'h-40',
+  data: ['cart-count-form' => $item->getProduct()->url],
+  content: flex(class: 'br-4 bw-1 bc-level-6-bg px-10 p-4 ai-c gp-0 h-f flex-f', content: [
+    number(class: 'bw-0 w-f', value: $item->getCount(), attributes: ['min' => 1, 'readonly']),
+    flex(class: 'gp-10 ai-c h-f', content: [
+      a(
+        class: 'br-circle sc-level-6 o-70 o-90-hover an-2 d-if ai-c jc-c ar-1-1 h-pr-80 cp',
+        data: 'cart-count-form-minus',
+        content: faIcon('minus', style: FaIcon::STYLE_LIGHT)
+      ),
+      a(
+        class: 'br-circle sc-level-6 o-70 o-90-hover an-2 d-if ai-c jc-c ar-1-1 h-pr-80 cp',
+        data: 'cart-count-form-plus',
+        content: faIcon('plus', style: FaIcon::STYLE_LIGHT)
+      )
+    ])
+  ])
+);

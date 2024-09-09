@@ -1,0 +1,121 @@
+$enable-important-utilities: false;
+
+$font-family-sans-serif: "Inter", sans-serif;
+$enable-button-pointers: true;
+$primary: #0897ff;
+$secondary: #f77c29;
+$gray-25: rgb(247, 249, 251);
+$gray-50: rgb(241, 243, 245);
+$gray-75: rgb(235, 237, 239);
+$gray-100: rgb(229, 231, 233);
+$gray-125: rgb(223, 225, 227);
+$gray-150: rgb(217, 219, 221);
+$gray-175: rgb(211, 213, 215);
+$gray-200: rgb(205, 207, 209);
+$gray-225: rgb(199, 201, 203);
+$gray-250: rgb(193, 195, 197);
+$gray-275: rgb(187, 189, 191);
+$gray-300: rgb(181, 183, 185);
+$gray-325: rgb(175, 177, 179);
+$gray-350: rgb(169, 171, 173);
+$gray-375: rgb(163, 165, 167);
+$gray-400: rgb(157, 159, 161);
+$gray-425: rgb(151, 153, 155);
+$gray-450: rgb(145, 147, 149);
+$gray-475: rgb(139, 141, 143);
+$gray-500: rgb(133, 135, 137);
+$gray-525: rgb(127, 129, 131);
+$gray-550: rgb(121, 123, 125);
+$gray-575: rgb(115, 117, 119);
+$gray-600: rgb(109, 111, 113);
+$gray-625: rgb(103, 105, 107);
+$gray-650: rgb(97, 99, 101);
+$gray-675: rgb(91, 93, 95);
+$gray-700: rgb(85, 87, 89);
+$gray-725: rgb(79, 81, 83);
+$gray-750: rgb(73, 75, 77);
+$gray-775: rgb(67, 69, 71);
+$gray-800: rgb(61, 63, 65);
+$gray-825: rgb(55, 57, 59);
+$gray-850: rgb(49, 51, 53);
+$gray-875: rgb(43, 45, 47);
+$gray-900: rgb(37, 39, 41);
+$gray-925: rgb(31, 33, 35);
+$gray-950: rgb(25, 27, 29);
+$gray-975: rgb(19, 21, 23);
+
+$min-contrast-ratio: 2.5;
+$font-size-base: 0.9rem;
+
+$body-bg: $gray-25;
+$body-color: $gray-800;
+
+$body-bg-dark: $gray-975;
+$body-color-dark: $gray-200;
+
+$level1Bg: $gray-50;
+$level1Color: $gray-950;
+
+$level2Bg: $gray-75;
+$level2Color: $gray-950;
+
+$level3Bg: $gray-100;
+$level3Color: $gray-950;
+
+$level4Bg: $gray-125;
+$level4Color: $gray-950;
+
+$level5Bg: $gray-150;
+$level5Color: $gray-950;
+
+$level6Bg: $gray-175;
+$level6Color: $gray-950;
+
+$level1DarkBg: $gray-950;
+$level1DarkColor: $gray-100;
+
+$level2DarkBg: $gray-925;
+$level2DarkColor: $gray-100;
+
+$level3DarkBg: $gray-900;
+$level3DarkColor: $gray-100;
+
+$level4DarkBg: $gray-875;
+$level4DarkColor: $gray-100;
+
+$level5DarkBg: $gray-850;
+$level5DarkColor: $gray-100;
+
+$level6DarkBg: $gray-825;
+$level6DarkColor: $gray-100;
+
+$link-decoration: none;
+$link-color: $gray-975;
+$link-color-dark: $gray-25;
+
+$gaps: mapMerge(
+    (0: 0),
+    fill(1, 20, 'px'),
+    fillStep(22, 50, 2, 'px'),
+    fillStep(55, 100, 5, 'px')
+);
+
+$stepPercents: map-merge(fillStep(1, 100, 2, "%"), fillStep(1, 100, 5, "%"));
+
+$stepPxs: mapMerge(
+    (0: 0),
+    fill(1, 10, 'px'),
+    fillStep(12, 50, 2, 'px'),
+    fillStep(50, 100, 5, 'px'),
+    fillStep(110, 400, 10, 'px')
+);
+
+$grid-columns: 12;
+
+$container-max-widths: (
+  sm: 540px,
+  md: 960px,
+  lg: 1100px,
+  xl: 1200px,
+  xxl: 1440px,
+);

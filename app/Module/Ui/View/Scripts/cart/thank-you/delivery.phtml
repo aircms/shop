@@ -1,0 +1,27 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Model\Order;
+
+/** @var Order $order */
+$order = $this->order;
+
+echo div(class: 'bw-2 bc-level-3-bg br-4 px-20 py-18', content: [
+  div(class: 'fw-bold fs-18 mb-10', content: match ($order->deliveryMethod) {
+    Order::DELIVERY_NEW_POST_DOOR => Phrase::t('Доставка додому за допомогою Нової Пошти'),
+    Order::DELIVERY_NEW_POST_WAREHOUSE => Phrase::t('Самовивіз із відділення Нової Пошти'),
+    Order::DELIVERY_DOOR => Phrase::t('Доставка додому'),
+    Order::DELIVERY_WAREHOUSE => Phrase::t('Самовивіз із нашого магазину'),
+  }),
+  div(class: 'o-80', content: function () use ($order) {
+    switch ($order->deliveryMethod) {
+      case Order::DELIVERY_NEW_POST_DOOR:
+      case Order::DELIVERY_NEW_POST_WAREHOUSE:
+      case Order::DELIVERY_DOOR:
+        echo div(content: implode(', ', $order->address));
+
+      case Order::DELIVERY_WAREHOUSE:
+        echo div(content: Phrase::t('Ви зможете забрати замовлення за адресою Одеса, вул. Грецька, 1, з 9:00 до 18:00.'));
+    }
+  })
+]);

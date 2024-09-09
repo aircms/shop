@@ -1,0 +1,15 @@
+.odd {
+  & > div:nth-child(odd) {
+    background-color: var(--level-1-bg);
+    color: var(--level-1-color);
+  }
+}
+
+@each $name, $colors in $special-colors {
+  .odd-#{$name} {
+    & > div:nth-child(odd) {
+      background-color: map-get($colors, 'bg');
+      color: map-get($colors, 'color');
+    }
+  }
+}

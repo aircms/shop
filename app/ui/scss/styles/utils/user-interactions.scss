@@ -1,0 +1,11 @@
+$utilities: map-merge($utilities, (
+  "user-select": (
+    property: user-select,
+    values: all auto none
+  ),
+  "pointer-events": (
+    property: pointer-events,
+    class: pe,
+    values: none auto,
+  ),
+));

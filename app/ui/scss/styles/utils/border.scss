@@ -1,0 +1,103 @@
+[class*="bc-"] {
+  border-style: solid;
+  border-width: 0;
+}
+
+$radiusOptions: fill(0, 11, px);
+$widthOptions: fill(0, 6, px);
+$responsive: false;
+
+$utilities: map-merge($utilities, (
+  "border-color": (
+    property: border-color,
+    class: bc,
+    responsive: $responsive,
+    state: hover,
+    values: $all-colors
+  )
+));
+
+$utilities: map-merge($utilities, (
+  "border-width": (
+    property: border-width,
+    class: bw,
+    responsive: $responsive,
+    state: hover,
+    values: $widthOptions
+  ),
+  "border-width-top": (
+    property: border-top-width,
+    class: bw-t,
+    responsive: $responsive,
+    state: hover,
+    values: $widthOptions
+  ),
+  "border-width-right": (
+    property: border-right-width,
+    class: bw-r,
+    responsive: $responsive,
+    state: hover,
+    values: $widthOptions
+  ),
+  "border-width-bottom": (
+    property: border-bottom-width,
+    class: bw-b,
+    responsive: $responsive,
+    state: hover,
+    values: $widthOptions
+  ),
+  "border-width-left": (
+    property: border-left-width,
+    class: bw-l,
+    responsive: $responsive,
+    state: hover,
+    values: $widthOptions
+  ),
+));
+
+$utilities: map-merge($utilities, (
+  "border-raduis": (
+    property: border-radius,
+    class: br,
+    responsive: $responsive,
+    state: hover,
+    values: $radiusOptions
+  ),
+  "border-raduis-top": (
+    property: border-top-left-radius border-top-right-radius,
+    class: br-t,
+    responsive: $responsive,
+    state: hover,
+    values: $radiusOptions
+  ),
+  "border-raduis-right": (
+    property: border-top-right-radius border-bottom-right-radius,
+    class: br-r,
+    responsive: $responsive,
+    state: hover,
+    values: $radiusOptions
+  ),
+  "border-raduis-bottom": (
+    property: border-bottom-right-radius border-bottom-left-radius,
+    class: br-b,
+    responsive: $responsive,
+    state: hover,
+    values: $radiusOptions
+  ),
+  "border-raduis-left": (
+    property: border-top-left-radius border-bottom-left-radius,
+    class: br-l,
+    responsive: $responsive,
+    state: hover,
+    values: $radiusOptions
+  ),
+  "border-raduis-circle": (
+    property: border-radius,
+    class: br,
+    responsive: $responsive,
+    state: hover,
+    values: (
+      circle: 50%
+    )
+  )
+));

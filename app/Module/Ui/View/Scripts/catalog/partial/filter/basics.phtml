@@ -1,0 +1,60 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Helper\Route;
+use App\Model\Category;
+
+/** @var View $this */
+
+/** @var Category $category */
+$category = $this->category;
+
+/** @var bool $new */
+$new = $this->new;
+
+/** @var bool $sale */
+$sale = $this->sale;
+
+/** @var int $priceMin */
+$priceMin = $this->priceMin;
+
+/** @var int $priceMax */
+$priceMax = $this->priceMax;
+
+echo widget(
+  title: Phrase::t('Загальні'),
+  opened: true,
+  content: function () use ($category, $new, $sale, $priceMin, $priceMax) {
+
+    echo flex(class: 'ai-c h-36', content: a(
+      href: Route::catalog(category: $category, isNew: true),
+      class: ['checkbox', !!$new ? 'c-primary' : null],
+      data: ['force', 'catalog-filter-change'],
+      content: [checkbox('new', 1, checked: !!$new), Phrase::t('Новинки')]
+    ));
+
+    echo flex(class: 'ai-c h-36', content: a(
+      href: Route::catalog(category: $category, isSale: true),
+      class: ['checkbox', !!$sale ? 'c-primary' : null],
+      data: ['force', 'catalog-filter-change'],
+      content: [checkbox('sale', 1, checked: !!$sale), Phrase::t('Розпродаж')]
+    ));
+
+    echo flex(class: 'w-f gp-15 mt-10 h-36', content: [
+      number(
+        name: 'priceMin',
+        class: 'h-f px-10 pt-10 pb-12 bw-2 bc-primary br-5 w-f',
+        placeholder: Phrase::t('мін. грн'),
+        value: $priceMin ?: ''
+      ),
+      number(
+        name: 'priceMax',
+        class: 'h-f px-10 pt-10 pb-12 bw-2 bc-primary br-5 w-f',
+        placeholder: Phrase::t('макc. грн'),
+        value: $priceMax ?: ''
+      ),
+      button(class: 'btn-primary', isSubmit: true, content: faIcon(icon: 'check'))
+    ]);
+  }
+);

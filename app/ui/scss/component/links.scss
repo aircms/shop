@@ -1,0 +1,37 @@
+a:hover, a:active {
+  color: var(--bs-primary);
+  transition: color .2s ease-out;
+}
+
+.u-link {
+  position: relative;
+  --ulink-color: #{$primary};
+
+  @each $color, $value in $all-colors {
+    &.#{$color} {
+      --ulink-color: #{$value};
+    }
+  }
+
+  &:after {
+    content: ' ';
+    position: absolute;
+    height: 2px;
+    border-radius: 2px;
+    width: 50%;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    transition: all .2s ease-out;
+    background-color: var(--ulink-color);
+  }
+
+  &:hover, &.active {
+    color: var(--ulink-color);
+  }
+
+  &:hover:after, &.active:after {
+    opacity: 1;
+    width: 100%;
+  }
+}

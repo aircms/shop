@@ -1,0 +1,159 @@
+$level1Bg: $gray-125 !default;
+$level1Color: $gray-900 !default;
+
+$level2Bg: $gray-150 !default;
+$level2Color: $gray-900 !default;
+
+$level3Bg: $gray-175 !default;
+$level3Color: $gray-900 !default;
+
+$level4Bg: $gray-200 !default;
+$level4Color: $gray-900 !default;
+
+$level5Bg: $gray-225 !default;
+$level5Color: $gray-900 !default;
+
+$level6Bg: $gray-250 !default;
+$level6Color: $gray-900 !default;
+
+
+// Dark
+$level1DarkBg: $gray-875 !default;
+$level1DarkColor: $gray-100 !default;
+
+$level2DarkBg: $gray-850 !default;
+$level2DarkColor: $gray-100 !default;
+
+$level3DarkBg: $gray-825 !default;
+$level3DarkColor: $gray-100 !default;
+
+$level4DarkBg: $gray-800 !default;
+$level4DarkColor: $gray-100 !default;
+
+$level5DarkBg: $gray-775 !default;
+$level5DarkColor: $gray-100 !default;
+
+$level6DarkBg: $gray-750 !default;
+$level6DarkColor: $gray-100 !default;
+
+:root {
+  --level-1-bg: #{$level1Bg};
+  --level-1-color: #{$level1Color};
+
+  --level-2-bg: #{$level2Bg};
+  --level-2-color: #{$level2Color};
+
+  --level-3-bg: #{$level3Bg};
+  --level-3-color: #{$level3Color};
+
+  --level-4-bg: #{$level4Bg};
+  --level-4-color: #{$level4Color};
+
+  --level-5-bg: #{$level5Bg};
+  --level-5-color: #{$level5Color};
+
+  --level-6-bg: #{$level6Bg};
+  --level-6-color: #{$level6Color};
+}
+
+[data-bs-theme="dark"] {
+  --level-1-bg: #{$level1DarkBg};
+  --level-1-color: #{$level1DarkColor};
+
+  --level-2-bg: #{$level2DarkBg};
+  --level-2-color: #{$level2DarkColor};
+
+  --level-3-bg: #{$level3DarkBg};
+  --level-3-color: #{$level3DarkColor};
+
+  --level-4-bg: #{$level4DarkBg};
+  --level-4-color: #{$level4DarkColor};
+
+  --level-5-bg: #{$level5DarkBg};
+  --level-5-color: #{$level5DarkColor};
+
+  --level-6-bg: #{$level6DarkBg};
+  --level-6-color: #{$level6DarkColor};
+}
+
+$theme-colors: map-merge($theme-colors, $colors);
+
+$all-colors: map-merge($theme-colors, (
+  'gray-25': #{$gray-25},
+  'gray-50': #{$gray-50},
+  'gray-75': #{$gray-75},
+  'gray-100': #{$gray-100},
+  'gray-125': #{$gray-125},
+  'gray-150': #{$gray-150},
+  'gray-175': #{$gray-175},
+  'gray-200': #{$gray-200},
+  'gray-225': #{$gray-225},
+  'gray-250': #{$gray-250},
+  'gray-275': #{$gray-275},
+  'gray-300': #{$gray-300},
+  'gray-325': #{$gray-325},
+  'gray-350': #{$gray-350},
+  'gray-375': #{$gray-375},
+  'gray-400': #{$gray-400},
+  'gray-425': #{$gray-425},
+  'gray-450': #{$gray-450},
+  'gray-475': #{$gray-475},
+  'gray-500': #{$gray-500},
+  'gray-525': #{$gray-525},
+  'gray-550': #{$gray-550},
+  'gray-575': #{$gray-575},
+  'gray-600': #{$gray-600},
+  'gray-625': #{$gray-625},
+  'gray-650': #{$gray-650},
+  'gray-675': #{$gray-675},
+  'gray-700': #{$gray-700},
+  'gray-725': #{$gray-725},
+  'gray-750': #{$gray-750},
+  'gray-775': #{$gray-775},
+  'gray-800': #{$gray-800},
+  'gray-825': #{$gray-825},
+  'gray-850': #{$gray-850},
+  'gray-875': #{$gray-875},
+  'gray-900': #{$gray-900},
+  'gray-925': #{$gray-925},
+  'gray-950': #{$gray-950},
+  'gray-975': #{$gray-975},
+));
+
+$special-colors: (
+  "body": (
+    bg: var(--bs-body-bg),
+    color: var(--bs-body-color),
+  ),
+  "level-1": (
+    bg: var(--level-1-bg),
+    color: var(--level-1-color),
+  ),
+  "level-2": (
+    bg: var(--level-2-bg),
+    color: var(--level-2-color),
+  ),
+  "level-3": (
+    bg: var(--level-3-bg),
+    color: var(--level-3-color),
+  ),
+  "level-4": (
+    bg: var(--level-4-bg),
+    color: var(--level-4-color),
+  ),
+  "level-5": (
+    bg: var(--level-5-bg),
+    color: var(--level-5-color),
+  ),
+  "level-6": (
+    bg: var(--level-6-bg),
+    color: var(--level-6-color),
+  )
+);
+
+@each $name, $colors in $special-colors {
+  $all-colors: map-merge($all-colors, (
+    "#{$name}-bg": map-get($colors, 'bg'),
+    "#{$name}-color": map-get($colors, 'color'),
+  ));
+}

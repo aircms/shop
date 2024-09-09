@@ -1,0 +1,71 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\Type\FaIcon;
+use App\Helper\Route;
+use App\Model\Coupon;
+use App\Model\Order;
+use App\Module\Ui\View\Helper\Common;
+
+/** @var Order $order */
+$order = $this->order;
+
+echo div(
+  class: 'bw-2 bc-level-3-bg br-4 px-20 py-18',
+  content: [
+    div(class: 'fw-bold fs-18 mb-20', content: Phrase::t('Ваше замовлення')),
+    row(class: 'gt-30', content: function () use ($order) {
+      foreach ($order->products as $item) {
+        echo col(class: '', content: function () use ($item) {
+          $product = $item->getProduct();
+
+          echo div(class: 'd-f ai-s', content: [
+            div(class: 'p-r', content: [
+              img($product->getImage(), class: 'ar-1-1 p-10 bg-white br-3 sd-soft of-con w-70 p-r of-h d-b'),
+              div(
+                class: 'p-a z-1 b-m5 r-m5 br-circle sc-primary o-90 o-100-hover an-2 d-f ai-c jc-c w-26 h-26 cp',
+                attributes: [
+                  'data-title' => Phrase::t('Швидкий перегяд'),
+                  'data-popup-href' => Route::productQuickView($product)
+                ],
+                content: faIcon('magnifying-glass', style: FaIcon::STYLE_LIGHT, class: 'fs-12')
+              ),
+            ]),
+            div(
+              class: 'px-12 d-f f-c gt-10',
+              content: [
+                a(class: 'fw-bold', href: Route::product($product), content: $product->title),
+                a(class: 'c-secondary c-secondary-hover fw-bold', href: Route::catalog($product->category), content: $product->category->title),
+                div(class: 'mt-5', content: [
+                  span(class: 'fw-bold fs-14', content: Common::price($product->price)),
+                  $product->oldPrice ? span(class: 'ml-10 o-70 td-lt fs-12', content: Common::price($product->oldPrice)) : null
+                ])
+              ]
+            )
+          ]);
+        });
+      }
+    }),
+    div(class: 'mt-30', content: function () use ($order) {
+      if ($order->coupon && $order->coupon->type !== Coupon::TYPE_INFO) {
+        echo row(class: 'fw-bold o-80 fs-14', content: [
+          col(class: 'col-7', content: Phrase::t('Загальна сума:')),
+          col(class: 'col-5 ta-r td-lt', content: Common::price($order->priceWithoutDiscount)),
+        ]);
+        echo row(class: 'fw-bold o-80 fs-14', content: [
+          col(class: 'col-7', content: Phrase::t('Знижка купона:')),
+          col(class: 'col-5 ta-r', content: Common::price($order->price - $order->priceWithoutDiscount)),
+        ]);
+        echo row(class: 'fw-bold fs-15', content: [
+          col(class: 'col-7', content: Phrase::t('Сума до оплати:')),
+          col(class: 'col-5 ta-r', content: Common::price($order->price)),
+        ]);
+      } else {
+        echo row(class: 'fw-bold fs-15', content: [
+          col(class: 'col-7', content: Phrase::t('Сума до оплати:')),
+          col(class: 'col-5 ta-r', content: Common::price($order->price)),
+        ]);
+      }
+    })
+  ],
+);

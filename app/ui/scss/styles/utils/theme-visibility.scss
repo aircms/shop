@@ -1,0 +1,11 @@
+html:not([data-bs-theme="dark"]) {
+  .only-dark {
+    display: none;
+  }
+}
+
+[data-bs-theme="dark"] {
+  .only-light {
+    display: none;
+  }
+}

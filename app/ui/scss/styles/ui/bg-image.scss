@@ -1,0 +1,25 @@
+.bg-image {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  &.contain {
+    background-size: contain;
+  }
+
+  &.top {
+    background-position: top;
+  }
+
+  &.right {
+    background-position: right;
+  }
+
+  &.bottom {
+    background-position: bottom;
+  }
+
+  &.left {
+    background-position: left;
+  }
+}

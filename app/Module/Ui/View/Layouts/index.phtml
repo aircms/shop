@@ -1,0 +1,51 @@
+<?php
+
+use Air\Cache;
+use Air\Cookie;
+use Air\Core\Front;
+use Air\Crud\Model\Codes;
+use Air\Crud\Model\Language;
+use Air\Map;
+use Air\View\View;
+use App\Helper\Route;
+
+if (isset($_GET['no-codes'])) {
+  Cookie::set('no-codes', true);
+}
+$isCodesEnabled = !Cookie::get('no-codes');
+
+/** @var View $this */
+$language = Language::getLanguage();
+
+/** @var string $fontsUi */
+$fontsUi = Front::getInstance()->getConfig()['air']['fontsUi'] ?? false;
+
+echo document(
+  htmlAttributes: ['lang' => $language->key],
+  htmlData: ['lang-prefix' => Route::getLanguageUrlPrefix()],
+  headContent: function () use ($isCodesEnabled, $language, $fontsUi) {
+    if ($isCodesEnabled) {
+      echo implode('', Map::execute(Codes::all(), 'description'));
+    }
+    echo $this->partial('component/layout/partial/theme');
+    echo $this->head(favicon: 'images/favicon.png');
+    echo $this->getMeta();
+
+    if ($fontsUi) {
+      echo $this->asset('/' . $fontsUi);
+    }
+    echo $this->asset('build.css');
+  },
+  bodyContent: function () use ($language) {
+    echo Cache::quick(['layout', 'header', $language], function () {
+      echo $this->partial('component/layout/header/top');
+      echo $this->partial('component/layout/header/middle');
+      echo $this->partial('component/layout/header/bottom');
+    });
+    echo main(content: $this->getContent());
+    echo Cache::quick(['layout', 'footer', $language], function () {
+      echo $this->partial('component/layout/footer');
+      echo $this->asset('build.js');
+    });
+  }
+);

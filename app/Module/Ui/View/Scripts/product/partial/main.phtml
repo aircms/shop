@@ -1,0 +1,47 @@
+<?php
+
+use Air\Cache;
+use Air\View\View;
+use App\Model\Product;
+
+/** @var View $this */
+
+/** @var Product $product */
+$product = $this->product;
+
+echo container(
+  row(
+    class: 'gt-20 gty-lg-50 gtx-lg-100 pt-2 mb-40',
+    content: [
+      col(class: 'col-12 col-md-6', content: $this->partial('component/gallery', [
+        'images' => $product->getImages(),
+        'noImage' => !$product->isImageAvailable()
+      ])),
+      col(
+        class: 'col-12 col-md-6',
+        content: flex(class: 'f-c h-f jc-sb jc-md-s gp-20 gp-lg-30', content: [
+          flex(class: 'f-c gp-14 gp-lg-30', content: [
+            h1(class: 'm-0 fs-26 fw-bold', content: $product->title),
+            Cache::quick([$product, 'details', 'general'], function () use ($product) {
+              echo $this->partial('product/partial/categories');
+              echo $this->partial('product/partial/description');
+              echo $this->partial('product/partial/brand-country');
+              echo $this->partial('product/partial/specifications', [
+                'specifications' => $product->previewSpecifications
+              ]);
+            }),
+          ]),
+          div(
+            class: 'zm-08 zm-md-1',
+            content: flex(
+              class: 'gp-20 f-c f-sm-r f-md-c f-xxl-r',
+              content: [
+                flex(class: 'ta-l flex-s-0 ai-e gp-20', content: $this->partial('product/partial/price')),
+                $this->partial('product/partial/add-to-cart')
+              ])
+          )
+        ])
+      )
+    ]
+  )
+);

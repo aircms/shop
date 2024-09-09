@@ -1,0 +1,18 @@
+<?php
+
+use App\Type\Banner;
+
+/** @var Banner $banner */
+$banner = $this->banner;
+
+if ($banner->getFile()->isImage()) {
+  $media = img($banner->getFile(), 'br-4 p-r t-0 w-f h-f of-cv');
+} else {
+  $media = video(
+    src: $banner->getFile(),
+    class: 'br-4 p-r t-0 w-f h-f of-cv',
+    attributes: ['autoplay loop muted playsinline', 'style' => 'pointer-events: none']
+  );
+}
+
+echo a(href: $banner->getUrl(), class: 'd-b h-f br-4 p-r', content: $media);

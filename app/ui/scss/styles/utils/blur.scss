@@ -1,0 +1,23 @@
+$blurValues: ("0": "none");
+@each $pixel in fillStep(1, 100, 5) {
+  $blurValues: map-merge($blurValues, (
+    $pixel: blur(#{calc($pixel / 10)}px)
+  ));
+};
+
+$utilities: map-merge($utilities, (
+  "filter-blur": (
+    property: filter,
+    class: blr,
+    responsive: false,
+    state: hover,
+    values: $blurValues
+  ),
+  "backdrop-filter": (
+    property: backdrop-filter,
+    class: bg-blr,
+    responsive: false,
+    state: hover,
+    values: $blurValues
+  ),
+));

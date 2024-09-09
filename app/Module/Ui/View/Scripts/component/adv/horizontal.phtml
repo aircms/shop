@@ -1,0 +1,39 @@
+<?php
+
+use Air\Type\FaIcon;
+use Air\View\View;
+use App\Model\ShowcaseAdv;
+use App\Type\Adv;
+
+/** @var View $this */
+
+$adv = ShowcaseAdv::one();
+
+echo container(
+  class: 'py-30',
+  content: div(
+    class: 'bw-1 br-10 bc-level-2-bg p-20 sc-level-1',
+    content: swiper(
+      slides: $adv->items,
+      slideClass: 'd-f',
+      options: [
+        'slidesPerView' => 1,
+        'spaceBetween' => 20,
+        'breakpoints' => [
+          '576' => ['slidesPerView' => 2],
+          '768' => ['slidesPerView' => 3],
+          '1200' => ['slidesPerView' => 4]
+        ]
+      ],
+      renderer: function (Adv $item) {
+        echo flex(class: 'ai-c', content: [
+          faIcon(icon: $item->getFaIcon(), class: 'c-primary fs-36 mr-10'),
+          div(content: [
+            div(class: 'fw-bold', content: $item->getTitle()),
+            div(content: $item->getDescription()),
+          ])
+        ]);
+      }
+    )
+  )
+);

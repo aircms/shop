@@ -1,0 +1,32 @@
+<?php
+
+use App\Helper\Route;
+use App\Model\Category;
+use App\Model\ShowcaseTopCategories;
+
+$topCategories = ShowcaseTopCategories::one();
+
+echo div('py-30 sc-level-2', container([
+  h2('ta-c mb-10 fw-bold fs-20', $topCategories->title),
+  swiper(
+    slides: $topCategories->categories,
+    options: [
+      'slidesPerView' => 2,
+      'breakpoints' => [
+        '768' => ['slidesPerView' => 4, 'spaceBetween' => 30],
+        '992' => ['slidesPerView' => 5, 'spaceBetween' => 30],
+        '1200' => ['slidesPerView' => 6, 'spaceBetween' => 30],
+        '1400' => ['slidesPerView' => 7, 'spaceBetween' => 30]
+      ]
+    ],
+    renderer: function (Category $category) {
+      echo a(
+        href: Route::catalog($category),
+        class: 'my-20 d-b br-5 of-h an-2 sd-soft sd-medium-hover sc-level-1 c-primary-hover ta-c fw-6',
+        content: [
+          img(src: $category->image, class: 'w-f of-con h-130 p-20 bg-white br-b-4'),
+          div('p-20 text-truncate', $category->title)
+        ]
+      );
+    })
+]));

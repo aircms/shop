@@ -1,0 +1,90 @@
+<?php
+
+use Air\View\View;
+use App\Model\Product;
+use App\Module\Ui\View\Helper\Input;
+use App\Type\Banner;
+
+/** @var View $this */
+
+/** @var string $title */
+$title = $this->title;
+
+/** @var Banner $desktopBanner */
+$desktopBanner = $this->desktopBanner;
+
+/** @var Banner $mobileBanner */
+$mobileBanner = $this->mobileBanner;
+
+/** @var Product[] $products */
+$products = $this->products;
+
+$slides = [];
+
+for ($i = 0; $i < count($products); $i = $i + 2) {
+  $product1 = null;
+  $product2 = null;
+
+  if (isset($products[$i])) {
+    $product1 = $products[$i];
+  }
+  if (isset($products[$i + 1])) {
+    $product2 = $products[$i + 1];
+  }
+
+  $slides[] = [$product1, $product2];
+}
+
+echo div(
+  data: 'swiper-container',
+  content: [
+    flex(
+      class: 'jc-sb ai-c mb-20',
+      content: [
+        h2(class: 'fw-bold fs-16 fs-md-20 r', content: $title),
+        Input::pillIconSwiperNav()
+      ],
+    ),
+    row(content: [
+      col(
+        class: 'col-12 col-lg-3',
+        content: [
+          div(class: 'd-n d-lg-b h-pr-100', content: $this->partial('component/banner', ['banner' => $desktopBanner])),
+          div(class: 'd-b d-lg-n mb-20', content: $this->partial('component/banner', ['banner' => $mobileBanner])),
+        ]
+      ),
+      col(
+        class: 'col-12 col-lg-9',
+        content: swiper(
+          slides: $slides,
+          options: [
+            'breakpoints' => [
+              '576' => ['slidesPerView' => 2],
+              '768' => ['slidesPerView' => 3],
+              '1400' => ['slidesPerView' => 4]
+            ]
+          ],
+          renderer: function ($slide) {
+            echo div(
+              class: 'row gt-10 gt-sm-20',
+              content: function () use ($slide) {
+                if ($slide[0]) {
+                  echo div(
+                    class: 'col-6 col-sm-12',
+                    content: $this->partial('component/product/preview/default', [
+                      'product' => $slide[0]
+                    ]));
+                }
+                if ($slide[1]) {
+                  echo div(
+                    class: 'col-6 col-sm-12',
+                    content: $this->partial('component/product/preview/default', [
+                      'product' => $slide[1]
+                    ]));
+                }
+              });
+          })
+      ),
+    ])
+  ]
+);

@@ -1,0 +1,49 @@
+<?php
+
+use Air\Cache;
+use Air\View\View;
+use App\Model\Product;
+use App\Module\Ui\View\Helper\Input;
+
+/** @var View $this */
+
+/** @var string $title */
+$title = $this->title;
+
+/** @var Product[] $products */
+$products = $this->products;
+
+if (!count($products)) {
+  return;
+}
+
+echo Cache::quick(['component', 'product-group', 'horizontal', $title, $products], function () use ($title, $products) {
+  echo div(
+    data: 'swiper-container',
+    content: [
+      flex(
+        class: 'ai-c jc-sb gp-20 h-40',
+        content: [
+          div(class: 'fw-bold fs-18 fs-md-20', content: $title),
+          Input::pillIconSwiperNav()
+        ]
+      ),
+      swiper(
+        slides: $products,
+        slideClass: 'py-20',
+        options: [
+          'slidesPerView' => 2,
+          'breakpoints' => [
+            '768' => ['slidesPerView' => 3],
+            '992' => ['slidesPerView' => 4],
+            '1200' => ['slidesPerView' => 5],
+          ]
+        ],
+        renderer: function (Product $product) {
+          echo $this->partial('component/product/preview/default', [
+            'product' => $product
+          ]);
+        })
+    ]
+  );
+});

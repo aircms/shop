@@ -1,0 +1,76 @@
+<?php
+
+use Air\Core\Front;
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Helper\Route;
+use App\Model\Category;
+
+/** @var View $this */
+
+$controller = Front::getInstance()->getRouter()->getController();
+$action = Front::getInstance()->getRouter()->getAction();
+
+$showCategories = false;
+if ($controller === 'index' && $action === 'index') {
+  $showCategories = true;
+}
+
+echo div(class: 'sc-level-2 d-n d-md-b',
+  content: container(
+    flex(
+      class: 'ai-c',
+      content: [
+        div(
+          class: 'w-300 flex-g-1 flex-md-g-0',
+          content: dropdown(
+            containerClass: ['mr-20 sc-level-3', $showCategories ? 'show' : ''],
+            containerData: 'category-button',
+            buttonClass: 'bw-r-1 pr-20 h-60',
+            boxClass: 'w-f',
+            buttonAttributes: ['href' => Route::catalog()],
+            button: [
+              div(
+                class: 'mr-10 ml-16',
+                content: $this->partial('component/layout/partial/catalog-logo', ['gray' => true])),
+              span(
+                class: 'tt-u fw-6 flex-g-1',
+                content: Phrase::t('Перегляд категорій'))
+            ],
+            box: div(
+              class: 'sc-level-2 w-f br-4 sd-soft',
+              data: ['async' => Route::asyncCategories()],
+              content: function () {
+                echo ul(class: 'categories', content: function () {
+                  foreach (Category::singleAll(['parent' => null]) as $category) {
+                    echo li(a(
+                      href: Route::catalog(category: $category),
+                      class: 'd-f ai-c',
+                      content: [
+                        faIcon(icon: $category->faIcon, class: 'icon'),
+                        span($category->title),
+                        faIcon(icon: 'chevron-up', class: 'chevron')
+                      ]
+                    ));
+                  }
+                });
+              }
+            )
+          )),
+        div(
+          class: 'flex-g-1',
+          content: [
+            div(class: 'main-menu d-n d-lg-f fs-12 fs-xl-14', content: $this->partialCached('component/layout/partial/menu')),
+            flex(class: 'd-lg-n jc-e', content: dropdown(
+              containerClass: 'h-60',
+              buttonClass: 'fw-bold h-f',
+              boxClass: 'w-100 sc-level-3 w-200 sd-soft right',
+              button: [
+                faIcon(icon: 'star'),
+                span(class: 'u-link', content: Phrase::t('Головне Меню')),
+              ],
+              box: div(class: 'sticky-menu', content: $this->partialCached('component/layout/partial/menu'))
+            ))
+          ],
+        )
+      ])));

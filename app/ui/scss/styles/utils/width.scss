@@ -1,0 +1,28 @@
+// TODO: max-width, viewport-width, dvw
+
+$utilities: map-merge($utilities, (
+  "width-percentage": (
+    property: width,
+    class: w,
+    responsive: true,
+    //state: hover,
+    values: $stepPxs
+  ),
+  "width-pixels": (
+    property: width,
+    class: w-pr,
+    responsive: true,
+    //state: hover,
+    values: $stepPercents
+  ),
+  "width-quick": (
+    property: width,
+    class: w,
+    responsive: true,
+    //state: hover,
+    values: (
+      "a": auto,
+      "f": 100%
+    )
+  )
+));

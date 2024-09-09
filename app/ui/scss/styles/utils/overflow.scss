@@ -1,0 +1,27 @@
+$overflowOptions: (
+  a: auto,
+  h: hidden,
+  v: visible,
+  s: scroll
+);
+
+$utilities: map-merge($utilities, (
+  "overflow": (
+    property: overflow,
+    responsive: true,
+    class: of,
+    values: $overflowOptions,
+  ),
+  "overflow-x": (
+    property: overflow-x,
+    responsive: true,
+    class: ofx,
+    values: $overflowOptions,
+  ),
+  "overflow-y": (
+    property: overflow-y,
+    responsive: true,
+    class: ofy,
+    values: $overflowOptions,
+  )
+));

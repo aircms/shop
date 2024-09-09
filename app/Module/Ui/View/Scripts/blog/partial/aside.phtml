@@ -1,0 +1,40 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Helper\Route;
+use App\Model\ArticleCategory;
+use App\Model\ArticleTag;
+
+/** @var ArticleCategory[] $categories */
+$categories = $this->categories;
+
+/** @var ArticleTag[] $tags */
+$tags = $this->tags;
+
+echo div(content: [
+  flex(
+    class: 'ai-c gp-20 fw-bold fs-18 h-40 bw-b-1 bc-secondary mb-20',
+    content: div(class: 'h-f c-secondary', content: Phrase::t('Категорії'))
+  ),
+  flex(class: 'mb-20 f-c gp-10', content: function () use ($categories) {
+    foreach ($categories as $category) {
+      echo a(
+        class: 'fw-6 c-secondary-hover d-f ai-c',
+        href: Route::blog(category: $category),
+        content: [faIcon(icon: $category->faIcon, class: 'w-24'), $category->title]);
+    }
+  }),
+  flex(
+    class: 'ai-c gp-20 fw-bold fs-16 h-40 bw-b-1 bc-secondary mb-20',
+    content: div(class: 'h-f c-secondary', content: Phrase::t('Популярні теги'))
+  ),
+  flex(class: 'f-w gp-10', content: function () use ($tags) {
+    foreach ($tags as $tag) {
+      echo a(
+        href: Route::blog(tag: $tag),
+        content: span(
+          class: 'sc-secondary br-4 px-5 py-3 sd-soft',
+          content: $tag->title));
+    }
+  })
+]);

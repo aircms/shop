@@ -1,0 +1,13 @@
+.hover {
+  .hover-box {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  &:hover, &:active {
+    .hover-box {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}

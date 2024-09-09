@@ -1,0 +1,35 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Helper\Route;
+use App\Model\ArticleCategory;
+use App\Model\ArticleTag;
+
+/** @var View $this */
+
+/** @var ArticleCategory $category */
+$category = $this->category;
+
+/** @var ArticleTag $tag */
+$tag = $this->tag;
+
+$breadcrumbs = [];
+
+if (!$category && !$tag) {
+  $breadcrumbs[] = Phrase::t('Блог');
+} else {
+  $breadcrumbs[Phrase::t('Блог')] = Route::blog();
+}
+
+if ($category) {
+  $breadcrumbs[] = $category->title;
+}
+
+if ($tag) {
+  $breadcrumbs[] = $tag->title;
+}
+
+echo $this->partial('component/header', [
+  'breadcrumbs' => $breadcrumbs
+]);

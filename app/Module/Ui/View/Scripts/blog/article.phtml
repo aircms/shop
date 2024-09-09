@@ -1,0 +1,78 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use Air\Type\File;
+use App\Helper\Route;
+use App\Model\Article;
+
+/** @var Article $article */
+$article = $this->article;
+
+echo container(
+  class: 'mb-60',
+  content: row(content: [
+    col(
+      class: 'col-12 col-lg-9',
+      content: [
+        $this->partial('component/header', [
+          'breadcrumbs' => [
+            Phrase::t('Блог') => Route::blog(),
+            $article->category->title => Route::blog($article->category),
+            $article->title
+          ]]),
+        img(src: $article->image, class: 'w-f mb-20 br-4'),
+        div(
+          class: 'bw-b-1 bc-level-6-bg mb-20',
+          content: flex(
+            class: 'jc-sb ai-e pb-20',
+            content: [
+              h1(class: 'fw-bold fs-20 fs-lg-30 m-0 p-0', content: $article->title),
+              div(class: 'o-80 flex-s-0', content: date('F j, Y', $article->publishedAt))
+            ]
+          )),
+        richContent(
+          content: $article->richContent,
+          containerClassName: 'd-f f-c gp-30',
+
+          /** @var File[] $files */
+          filesRenderer: function (array $files) {
+            return $this->partial('component/gallery', [
+              'images' => $files
+            ]);
+          },
+          fileRenderer: function (File $file) {
+            if ($file->isImage()) {
+              return img(src: $file, class: 'w-f br-4 of-con');
+            }
+            return video(src: $file, class: 'w-f br-4', attributes: ['controls']);
+          },
+          textRenderer: function (string $text) {
+            return div(class: 'd-f f-c gp-20', content: nl2br($text));
+          },
+          htmlRenderer: function (string $html) {
+            return div(class: 'd-f f-c gp-20', content: $html);
+          },
+          embedRenderer: function (string $embed) {
+            return iframe($embed, class: 'br-4 of-h ar-16-9 w-f', attributes: ['allowfullscreen']);
+          },
+        )
+      ]),
+    col(
+      class: 'col-12 col-lg-3',
+      content: div(
+        class: 'p-sk t-70 mt-20',
+        content: $this->partial('blog/partial/aside')
+      )),
+  ])
+);
+
+if (count($article->articles)) {
+  echo div(
+    class: 'sc-level-1',
+    content: container(
+      class: 'pt-20 pb-10',
+      content: $this->partial('component/article/group', [
+        'title' => Phrase::t('Рекомендовані статті'),
+        'articles' => $article->articles
+      ])));
+}

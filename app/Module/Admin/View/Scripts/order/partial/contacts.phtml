@@ -1,0 +1,39 @@
+<?php
+
+use App\Model\Order;
+
+/** @var Order $order */
+$order = $this->order;
+?>
+<div class="card">
+  <div class="card-body p-3">
+    <h6 class="p-0 m-0 lead">
+      <i class="fas fa-square-phone me-1"></i>
+      Контакти
+    </h6>
+    <hr>
+    <div class="row mb-3">
+      <div class="col-4">Ім'я</div>
+      <div class="col-8 text-info text-end"><?php echo $order->firstName; ?></div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-4">Прізвище</div>
+      <div class="col-8 text-info text-end"><?php echo $order->lastName; ?></div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-4">Телефон</div>
+      <div class="col-8 text-end">
+        <a href="tel:<?php echo $order->phone; ?>" class="text-info text-decoration-underline">
+          <?php echo $order->phone; ?>
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">E-mail</div>
+      <div class="col-8 text-end">
+        <a href="mailto:<?php echo $order->email; ?>" class="text-info text-decoration-underline">
+          <?php echo $order->email; ?>
+        </a></div>
+    </div>
+  </div>
+</div>

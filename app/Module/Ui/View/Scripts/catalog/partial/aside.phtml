@@ -1,0 +1,25 @@
+<?php
+
+/** @var View $this */
+
+use Air\Cache;
+use Air\Crud\Model\Phrase;
+use Air\View\View;
+use App\Helper\Route;
+
+echo a(
+  class: 'btn-secondary d-f ai-c jc-c d-md-n gp-5',
+  data: ['offcanvas-inline' => '[data-aside-filter]'],
+  content: [faIcon(icon: 'filter'), span(Phrase::t('Фільтри'))]
+);
+
+echo div(class: 'd-n d-md-b', data: 'aside-filter', content: function () {
+  echo div(class: 'offcanvas-block fw-bold tt-u mb-14', content: Phrase::t('Фільтри'));
+  echo Cache::quick([Route::currentRouteId(), 'catalog', 'aside'], function () {
+    echo $this->partial('catalog/partial/filter/category');
+    echo $this->partial('catalog/partial/filter/basics');
+    echo $this->partial('catalog/partial/filter/brand');
+    echo $this->partial('catalog/partial/filter/country');
+    echo $this->partial('catalog/partial/filter/default');
+  });
+});

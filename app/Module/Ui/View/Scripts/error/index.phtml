@@ -1,0 +1,24 @@
+<?php
+
+use Air\Crud\Model\Phrase;
+use App\Helper\Route;
+
+echo container(
+  class: 'my-60',
+  content: row(
+    col(
+      class: 'col-12',
+      content: div(class: 'mt-10 ta-c', content: [
+        h2(class: 'mb-10 fs-18', content: [
+          span(class: 'c-secondary', content: Phrase::t('Ой!!!')),
+          ' ',
+          Phrase::t('А такої сторінки не існує')
+        ]),
+        a(href: Route::catalog(), class: 'btn-dark d-if ai-c gp-10', content: [
+          Phrase::t('Перейти на головну'),
+          faIcon('arrow-right', class: 'fs-10')
+        ])
+      ])
+    )
+  )
+);

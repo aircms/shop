@@ -1,0 +1,35 @@
+<?php
+
+use Air\Cache;
+use Air\View\View;
+use App\Model\Product;
+
+/** @var View $this */
+
+/** @var Product[] $products */
+$products = $this->products;
+
+if (!count($products)) {
+  return;
+}
+
+/** @var string $title */
+$title = $this->title;
+
+echo Cache::quick(['component', 'product-group', 'vertical', $products], function () use ($title, $products) {
+  echo flex(
+    class: 'ai-c gp-20 fw-bold fs-20 h-40 bw-b-1 bc-level-2-bg',
+    content: $title
+  );
+  echo row(
+    class: 'gt-20 pt-16 pb-20',
+    content: function () use ($products) {
+      foreach ($products as $product) {
+        echo col(
+          class: 'col-12 col-md-6 col-lg-12',
+          content: $this->partial('component/product/preview/small', [
+            'product' => $product
+          ]));
+      }
+    });
+});
