@@ -74,8 +74,6 @@ class Catalog extends Base
       $show = $this->showOptions[0];
     }
 
-    $show = 5;
-
     if ($category) {
       $this->getView()->setMeta($category->meta);
       $this->getView()->assign('category', $category);
