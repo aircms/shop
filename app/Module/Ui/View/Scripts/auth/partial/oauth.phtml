@@ -2,7 +2,11 @@
 
 use App\Helper\Factory;
 
-$googleAuthUrl = Factory::googleOAuth()->authUrl();
+$googleAuthUrl = Factory::googleOAuth()?->authUrl();
+
+if (!$googleAuthUrl) {
+  return;
+}
 
 /** @var string $title */
 $title = $this->title;

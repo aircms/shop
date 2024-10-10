@@ -19,7 +19,7 @@ use App\Model\Settings;
 class Factory
 {
   /**
-   * @return GoogleOAuth
+   * @return GoogleOAuth|null
    * @throws CallUndefinedMethod
    * @throws ClassWasNotFound
    * @throws ConfigWasNotProvided
@@ -27,9 +27,13 @@ class Factory
    * @throws DriverClassDoesNotExists
    * @throws DriverClassDoesNotExtendsFromDriverAbstract
    */
-  public static function googleOAuth(): GoogleOAuth
+  public static function googleOAuth(): ?GoogleOAuth
   {
     $settings = Settings::singleOne();
+
+    if (!$settings || empty($settings->googleOAuthClientId) || empty($settings->googleOAuthClientSecret)) {
+      return null;
+    }
 
     return new GoogleOAuth(
       clientId: $settings->googleOAuthClientId,
