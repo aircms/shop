@@ -64,7 +64,7 @@ return [
       ],
       'tiny' => getenv('AIR_ADMIN_TINY_KEY'),
       'menu' => require_once 'nav.php',
-      'locale' => 'ua'
+      'locale' => realpath(dirname(__FILE__)) . '/../config/locale.json',
     ]
   ],
   'router' => [

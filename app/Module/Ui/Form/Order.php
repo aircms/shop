@@ -48,13 +48,13 @@ final class Order
     $this->errors = [];
     $this->values = [];
 
-    if (!StringLength::valid($data['firstName'], ['min' => 2, 'max' => 100])) {
+    if (!StringLength::valid(min: 2, max: 100)->isValid($data['firstName'])) {
       $this->errors[] = 'firstName';
     } else {
       $this->values['firstName'] = $this->defaultStringFilter($data['firstName']);
     }
 
-    if (!StringLength::valid($data['lastName'], ['min' => 2, 'max' => 100])) {
+    if (!StringLength::valid(min: 2, max: 100)->isValid($data['lastName'])) {
       $this->errors[] = 'lastName';
     } else {
       $this->values['lastName'] = $this->defaultStringFilter($data['lastName']);
@@ -66,7 +66,7 @@ final class Order
       $this->values['phone'] = \Air\Filter\Phone::clean($data['phone']);
     }
 
-    if (!Email::valid($data['email'])) {
+    if (!Email::valid()->isValid($data['email'])) {
       $this->errors[] = 'email';
     } else {
       $this->values['email'] = \Air\Filter\Email::clean($data['email']);
@@ -85,19 +85,19 @@ final class Order
     ) {
       $this->values['address'] = [];
 
-      if (!StringLength::valid($data['door']['region'], ['min' => 5, 'max' => 200])) {
+      if (!StringLength::valid(min: 5, max: 200)->isValid($data['door']['region'])) {
         $this->errors[] = 'door[region]';
       } else {
         $this->values['address']['region'] = $this->defaultStringFilter($data['door']['region']);
       }
 
-      if (!StringLength::valid($data['door']['city'], ['min' => 2, 'max' => 100])) {
+      if (!StringLength::valid(min: 2, max: 100)->isValid($data['door']['city'])) {
         $this->errors[] = 'door[city]';
       } else {
         $this->values['address']['city'] = $this->defaultStringFilter($data['door']['city']);
       }
 
-      if (!StringLength::valid($data['door']['line1'], ['min' => 2, 'max' => 100])) {
+      if (!StringLength::valid(min: 2, max: 100)->isValid($data['door']['line1'])) {
         $this->errors[] = 'door[line1]';
       } else {
         $this->values['address']['line1'] = $this->defaultStringFilter($data['door']['line1']);
@@ -109,19 +109,19 @@ final class Order
     } else if ($data['delivery'] === \App\Model\Order::DELIVERY_NEW_POST_WAREHOUSE) {
       $this->values['address'] = [];
 
-      if (!StringLength::valid($data['warehouse']['region'] ?? '', ['min' => 5, 'max' => 200])) {
+      if (!StringLength::valid(min: 5, max: 200)->isValid($data['warehouse']['region'] ?? '')) {
         $this->errors[] = 'warehouse[region]';
       } else {
         $this->values['address']['region'] = $this->defaultStringFilter($data['warehouse']['region']);
       }
 
-      if (!StringLength::valid($data['warehouse']['city'] ?? '', ['min' => 2, 'max' => 200])) {
+      if (!StringLength::valid(min: 2, max: 200)->isValid($data['warehouse']['city'] ?? '')) {
         $this->errors[] = 'warehouse[city]';
       } else {
         $this->values['address']['city'] = $this->defaultStringFilter($data['warehouse']['city']);
       }
 
-      if (!StringLength::valid($data['warehouse']['warehouse'] ?? '', ['min' => 2, 'max' => 200])) {
+      if (!StringLength::valid(min: 2, max: 200)->isValid($data['warehouse']['warehouse'] ?? '')) {
         $this->errors[] = 'warehouse[warehouse]';
       } else {
         $this->values['address']['warehouse'] = $this->defaultStringFilter($data['warehouse']['warehouse']);
@@ -140,25 +140,25 @@ final class Order
 
     if ($data['payment'] === \App\Model\Order::PAYMENT_BANK_INDIVIDUAL) {
 
-      if (!StringLength::valid($data['bankIndividual']['firstName'], ['min' => 2, 'max' => 100])) {
+      if (!StringLength::valid(min: 2, max: 100)->isValid($data['bankIndividual']['firstName'])) {
         $this->errors[] = 'bankIndividual[firstName]';
       } else {
         $this->values['payment']['firstName'] = $this->defaultStringFilter($data['bankIndividual']['firstName']);
       }
 
-      if (!StringLength::valid($data['bankIndividual']['lastName'], ['min' => 2, 'max' => 100])) {
+      if (!StringLength::valid(min: 2, max: 100)->isValid($data['bankIndividual']['lastName'])) {
         $this->errors[] = 'bankIndividual[lastName]';
       } else {
         $this->values['payment']['lastName'] = $this->defaultStringFilter($data['bankIndividual']['lastName']);
       }
 
-      if (!StringLength::valid($data['bankIndividual']['patronymic'], ['min' => 2, 'max' => 100])) {
+      if (!StringLength::valid(min: 2, max: 100)->isValid($data['bankIndividual']['patronymic'])) {
         $this->errors[] = 'bankIndividual[patronymic]';
       } else {
         $this->values['payment']['patronymic'] = $this->defaultStringFilter($data['bankIndividual']['patronymic']);
       }
 
-      if (!Phone::valid($data['bankIndividual']['phone'])) {
+      if (!Phone::valid()->isValid($data['bankIndividual']['phone'])) {
         $this->errors[] = 'bankIndividual[phone]';
       } else {
         $this->values['payment']['phone'] = \Air\Filter\Phone::clean($data['bankIndividual']['phone']);
@@ -166,13 +166,13 @@ final class Order
 
     } else if ($data['payment'] === \App\Model\Order::PAYMENT_BANK_ENTITY) {
 
-      if (!StringLength::valid($data['bankEntity']['edrpou'], ['min' => 2, 'max' => 200])) {
+      if (!StringLength::valid(min: 2, max: 200)->isValid($data['bankEntity']['edrpou'])) {
         $this->errors[] = 'bankEntity[edrpou]';
       } else {
         $this->values['payment']['edrpou'] = intval($data['bankEntity']['edrpou']);
       }
 
-      if (!StringLength::valid($data['bankEntity']['entityName'], ['min' => 2, 'max' => 100])) {
+      if (!StringLength::valid(min: 2, max: 200)->isValid($data['bankEntity']['entityName'])) {
         $this->errors[] = 'bankEntity[entityName]';
       } else {
         $this->values['payment']['entityName'] = $this->defaultStringFilter($data['bankEntity']['entityName']);
